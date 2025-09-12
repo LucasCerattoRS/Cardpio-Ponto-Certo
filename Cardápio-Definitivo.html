@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponto Certo - Restaurante e Lancheria</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --laranja-principal: #FF7043;
+            --verde-principal: #66BB6A;
+            --preto-fundo: #121212;
+            --preto-secundario: #1E1E1E;
+            --branco-texto: #FFFFFF;
+            --cinza-texto: #B0B0B0;
+            --laranja-claro: #FFAB91;
+            --verde-claro: #A5D6A7;
+            --verde-escuro: #388E3C;
+            --laranja-escuro: #D84315;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--preto-fundo);
+            color: var(--branco-texto);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            padding: 50px 20px 30px;
+            background: linear-gradient(135deg, rgba(102, 187, 106, 0.1) 0%, transparent 70%);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid var(--laranja-principal);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 112, 67, 0.05), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            color: var(--laranja-principal);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8),
+                        0 0 30px rgba(255, 112, 67, 0.5);
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+            animation: glow 2s ease-in-out infinite alternate;
+            font-weight: 800;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 112, 67, 0.5); }
+            to { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8), 0 0 40px rgba(255, 112, 67, 0.8); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--verde-principal) !important;
+            letter-spacing: 5px;
+            opacity: 1;
+            text-shadow: 0 0 10px rgba(102, 187, 106, 0.5);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Hero Images - CORRIGIDO PARA MELHOR ENQUADRAMENTO */
+        .hero-images {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            padding: 30px 20px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-img {
+            width: 280px;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 3px solid var(--verde-principal);
+            background: var(--preto-secundario);
+        }
+
+        .hero-img::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent, rgba(255, 112, 67, 0.2));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .hero-img:hover {
+            transform: scale(1.08) translateY(-5px);
+            box-shadow: 0 15px 40px rgba(255, 112, 67, 0.4);
+            border-color: var(--laranja-principal);
+        }
+
+        .hero-img:hover::after {
+            opacity: 1;
+        }
+
+        .hero-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+        }
+
+        /* Banner Section - se necessário */
+        #banner {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            height: auto;
+            position: relative;
+            padding: 20px;
+        }
+
+        #banner img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Menu Container */
+        .menu-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Menu Grid */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        /* Menu Section */
+        .menu-section {
+            background: var(--preto-secundario);
+            border: 2px solid var(--laranja-principal);
+            border-radius: 12px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5),
+                       inset 0 1px 0 rgba(255, 112, 67, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-section::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--laranja-principal), var(--verde-principal), var(--laranja-principal));
+            border-radius: 12px;
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease;
+        }
+
+        .menu-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(255, 112, 67, 0.3);
+        }
+
+        .menu-section:hover::before {
+            opacity: 0.3;
+        }
+
+        h2 {
+            color: var(--laranja-principal);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            padding-bottom: 12px;
+            font-weight: 700;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--laranja-principal), var(--verde-principal), var(--laranja-principal), transparent);
+        }
+
+        /* Menu Items */
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 112, 67, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .menu-item:hover {
+            padding-left: 10px;
+            background: rgba(102, 187, 106, 0.05);
+            margin: 0 -10px;
+            padding-left: 20px;
+            padding-right: 10px;
+            border-left: 3px solid var(--verde-principal);
+        }
+
+        .menu-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-name {
+            flex: 1;
+            font-size: 1.1rem;
+            color: var(--branco-texto);
+            font-weight: 500;
+        }
+
+        .item-details {
+            font-size: 0.85rem;
+            color: var(--cinza-texto);
+            display: block;
+            margin-top: 5px;
+        }
+
+        .item-price {
+            color: var(--laranja-principal);
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: right;
+            min-width: 80px;
+        }
+
+        /* Special Badge */
+        .special-badge {
+            display: inline-block;
+            background: var(--laranja-principal);
+            color: var(--preto-fundo);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        /* Green Badge for vegetarian/special items */
+        .green-badge {
+            display: inline-block;
+            background: var(--verde-principal);
+            color: var(--preto-fundo);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-left: 8px;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(102, 187, 106, 0.3);
+            text-transform: uppercase;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, rgba(255, 112, 67, 0.1), rgba(102, 187, 106, 0.1));
+            border-radius: 15px;
+            border: 1px solid rgba(255, 112, 67, 0.3);
+        }
+
+        /* QR Code / Logo Container */
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            margin: 30px auto;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--verde-principal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            background: linear-gradient(135deg, var(--verde-principal), var(--verde-escuro));
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(102, 187, 106, 0.3);
+            margin-top: 20px;
+            border: 2px solid var(--verde-principal);
+            justify-content: center;
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 187, 106, 0.5);
+            background: linear-gradient(135deg, var(--verde-escuro), var(--verde-principal));
+        }
+
+        .social-handle {
+            color: var(--verde-principal);
+            font-size: 1.1rem;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(102, 187, 106, 0.3);
+            font-weight: 500;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255, 112, 67, 0.1);
+            color: var(--laranja-principal);
+            border: 2px solid var(--laranja-principal);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: var(--laranja-principal);
+            color: var(--preto-fundo);
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 112, 67, 0.4);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .hero-images {
+                padding: 20px 10px;
+            }
+            
+            .hero-img {
+                width: 100%;
+                max-width: 350px;
+                height: 220px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                letter-spacing: 2px;
+            }
+            
+            .tab-nav {
+                gap: 8px;
+            }
+            
+            .tab-btn {
+                padding: 8px 15px;
+                font-size: 0.8rem;
+            }
+            
+            .menu-section {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+            }
+            
+            .item-name {
+                font-size: 1rem;
+            }
+            
+            .item-price {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 40px 15px 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 0.9rem;
+                letter-spacing: 1px;
+            }
+            
+            .hero-images {
+                gap: 15px;
+            }
+            
+            .hero-img {
+                height: 180px;
+            }
+            
+            .tab-btn {
+                padding: 6px 12px;
+                font-size: 0.75rem;
+            }
+            
+            .whatsapp-btn {
+                font-size: 1rem;
+                padding: 12px 20px;
+            }
+            
+            .qr-code {
+                width: 150px;
+                height: 150px;
+            }
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Location Badge */
+        .location {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(102, 187, 106, 0.2), rgba(102, 187, 106, 0.1));
+            color: var(--verde-principal);
+            padding: 8px 18px;
+            border-radius: 25px;
+            margin-top: 15px;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            border: 2px solid var(--verde-principal);
+            text-shadow: 0 0 10px rgba(102, 187, 106, 0.3);
+            box-shadow: 0 0 15px rgba(102, 187, 106, 0.2);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            color: var(--cinza-texto);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 112, 67, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>PONTO CERTO</h1>
+        <div class="subtitle">RESTAURANTE E LANCHERIA</div>
+        <div class="location">📍 PARAÍ</div>
+    </div>
+
+    <div class="hero-images">
+        <!-- Imagem 1: Porção Italiana -->
+        <div class="hero-img">
+            <img src="Italiana AA.jpg" alt="Porção Italiana">
+        </div>
+        
+        <!-- Imagem 2: Xis -->
+        <div class="hero-img">
+            <img src="Xis AA.png" alt="Xis especial">
+        </div>
+        
+        <!-- Imagem 3: Caipirinha -->
+        <div class="hero-img">
+            <img src="Caipirinha AA.png" alt="Caipirinha">
+        </div>
+    </div>
+
+    <div class="menu-container">
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="filterMenu('all')">Cardápio Completo</button>
+            <button class="tab-btn" onclick="filterMenu('entradas')">Entradas</button>
+            <button class="tab-btn" onclick="filterMenu('pratos')">Pratos</button>
+            <button class="tab-btn" onclick="filterMenu('lanches')">Lanches</button>
+            <button class="tab-btn" onclick="filterMenu('bebidas')">Bebidas</button>
+        </div>
+
+        <div class="menu-grid" id="menuGrid">
+            <div class="menu-section fade-in" data-category="entradas">
+                <h2>Entradas & Porções</h2>
+                
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Batata Frita</span>
+                        <span class="item-details">Pequena (300g) / Grande (500g)</span>
+                    </div>
+                    <div class="item-price">R$ 18 / R$ 25</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Queijo Frito</span>
+                        <span class="item-details">Porção de 300g</span>
+                    </div>
+                    <div class="item-price">R$ 20</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Picadão Ponto Certo</span>
+                        <span class="special-badge">ESPECIAL</span>
+                        <span class="item-details">Pequeno (2-3 pessoas) / Grande (4-5 pessoas)</span>
+                    </div>
+                    <div class="item-price">R$ 75 / R$ 95</div>
+                </div>
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Porção à Italiana</span>
+                        <span class="item-details">Serve de 2 a 3 pessoas</span>
+                    </div>
+                    <div class="item-price">R$ 120</div>
+                </div>
+            </div>
+
+            <div class="menu-section fade-in" data-category="pratos">
+                <h2>Pratos Principais</h2>
+                
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Bife à Parmegiana</span>
+                        <span class="item-details">Serve 2 pessoas | 1 pessoa</span>
+                    </div>
+                    <div class="item-price">R$ 70 / R$ 50</div>
+                </div>
+
+            </div>
+
+            <div class="menu-section fade-in" data-category="lanches">
+                <h2>Xis (Lanches)</h2>
+                
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Xis Salada</span>
+                    </div>
+                    <div class="item-price">R$ 25</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Xis Acebolado</span>
+                    </div>
+                    <div class="item-price">R$ 27</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Xis Frango</span>
+                    </div>
+                    <div class="item-price">R$ 25</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Xis Bacon</span>
+                    </div>
+                    <div class="item-price">R$ 28</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Xis Calabresa</span>
+                        <span class="item-details">Opções especiais</span>
+                    </div>
+                    <div class="item-price">R$ 28</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Xis Coração</span>
+                    </div>
+                    <div class="item-price">R$ 31</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Xis Tudo</span>
+                        <span class="special-badge">COMPLETO</span>
+                    </div>
+                    <div class="item-price">R$ 33</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Xis Turbo</span>
+                        <span class="special-badge">TOP</span>
+                    </div>
+                    <div class="item-price">R$ 35</div>
+                </div>
+            </div>
+
+            <div class="menu-section fade-in" data-category="pasteis">
+                <h2>Pastéis</h2>
+                
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Pastel Médio</span>
+                    </div>
+                    <div class="item-price">R$ 15</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Pastel Grande</span>
+                    </div>
+                    <div class="item-price">R$ 22</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Chocolate Preto/Branco</span>
+                    </div>
+                    <div class="item-price">R$ 22</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Frango</span>
+                    </div>
+                    <div class="item-price">R$ 14</div>
+                </div>
+            </div>
+
+            <div class="menu-section fade-in" data-category="bebidas">
+                <h2>Bebidas</h2>
+                
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Refrigerantes</span>
+                        <span class="item-details">Lata | 600ml | 1L</span>
+                    </div>
+                    <div class="item-price">R$ 7 | R$ 6 | R$ 14</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Sucos Naturais</span>
+                        <span class="item-details">500ml - Diversos sabores</span>
+                    </div>
+                    <div class="item-price">R$ 6</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Cerveja</span>
+                        <span class="item-details">Polar, Skol, Original, Heineken</span>
+                    </div>
+                    <div class="item-price">R$ 12 - R$ 14</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Caipirinha</span>
+                        <span class="item-details">Copo</span>
+                    </div>
+                    <div class="item-price">R$ 18</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Energéticos</span>
+                        <span class="item-details">Red Bull, Monster, Gatorade</span>
+                    </div>
+                    <div class="item-price">R$ 13 - R$ 20</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <h2 style="color: var(--laranja-principal); margin-bottom: 25px;">Peça pelo WhatsApp</h2>
+            
+            <div class="qr-code">
+                <img src="Logo-Arilson AA.png" alt="Logo Ponto Certo">
+            </div>
+            
+            <a href="https://wa.me/+555496330015" class="whatsapp-btn">
+                <i class="fab fa-whatsapp"></i>
+                <span>(54) 9 9886-5980</span>
+            </a>
+            
+            <div class="social-handle">@pontocerto_726</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 Ponto Certo - Todos os direitos reservados</p>
+        <p>Aberto todos os dias das 18h às 23h</p>
+    </div>
+
+    <script>
+        function filterMenu(category) {
+            const sections = document.querySelectorAll('.menu-section');
+            const buttons = document.querySelectorAll('.tab-btn');
+            
+            // Update active button
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(category) || 
+                    (category === 'all' && btn.textContent.includes('Completo'))) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Filter sections
+            sections.forEach(section => {
+                if (category === 'all') {
+                    section.style.display = 'block';
+                    section.classList.add('fade-in');
+                } else {
+                    const sectionCategory = section.getAttribute('data-category');
+                    if (sectionCategory === category) {
+                        section.style.display = 'block';
+                        section.classList.add('fade-in');
+                    } else {
+                        section.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        // Add hover effect to menu items
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+
+        // Parallax effect on scroll - reduzido para melhor performance
+let ticking = false;
+
+function updateParallax() {
+  const scrolled = window.scrollY || window.pageYOffset;
+  const header = document.querySelector('.header');
+  if (header) {
+    // ajuste o fator 0.3 pro efeito desejado
+    header.style.transform = `translateY(${scrolled * 0.3}px)`;
+  }
+  ticking = false;
+}
+
+function onScroll() {
+  if (!ticking) {
+    window.requestAnimationFrame(updateParallax);
+    ticking = true;
+  }
+}
+
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// opcional: aplica o estado inicial ao carregar
+updateParallax();
+
