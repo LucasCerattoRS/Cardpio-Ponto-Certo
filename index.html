@@ -527,6 +527,12 @@
             font-size: 0.9rem;
             border-top: 1px solid rgba(255, 112, 67, 0.2);
         }
+        
+        
+        .item-price .price-separator {
+            color: var(--verde-escuro, #388E3C);
+            font-weight: inherit;
+        }
     </style>
 </head>
 <body>
@@ -539,17 +545,17 @@
     <div class="hero-images">
         <!-- Imagem 1: Porção Italiana -->
         <div class="hero-img">
-            <img src="img/Italiana-AA.jpg" alt="Porção Italiana">
+            <img src="img/Italiana.jpg" alt="Porção Italiana">
         </div>
         
         <!-- Imagem 2: Xis -->
         <div class="hero-img">
-            <img src="img/Xis-AA.png" alt="Xis especial">
+            <img src="img/Xis.png" alt="Xis especial">
         </div>
         
         <!-- Imagem 3: Caipirinha -->
         <div class="hero-img">
-            <img src="img/Caipirinha-AA.png" alt="Caipirinha">
+            <img src="img/Caipirinha.png" alt="Caipirinha">
         </div>
     </div>
 
@@ -569,7 +575,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Batata Frita</span>
-                        <span class="item-details">Pequena (300g) / Grande (500g)</span>
+                        <span class="item-details">Porção pequena / Grande</span>
                     </div>
                     <div class="item-price">R$ 18 / R$ 25</div>
                 </div>
@@ -584,16 +590,18 @@
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Picadão Ponto Certo</span>
+                        <span class="item-name">Picadão</span>
                         <span class="special-badge">ESPECIAL</span>
-                        <span class="item-details">Pequeno (2-3 pessoas) / Grande (4-5 pessoas)</span>
+                        <span class="item-details">Polenta, aipim, queijo, batata, anel de cebola, ovo de codorna, pepino, carne de gado, carne de frango, carne calabresa, maionese</span>
                     </div>
-                    <div class="item-price">R$ 75 / R$ 95</div>
+                    <div class="item-price">R$ 75 / 95 </div>
                 </div>
+                
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Porção à Italiana</span>
-                        <span class="item-details">Serve de 2 a 3 pessoas</span>
+                        <span class="item-name">Porção Italiana</span>
+                        <span class="green-badge">ESPECIAL</span>
+                        <span class="item-details">Polenta na chapa, queijo na chapa, salame na chapa, filé tilápia frito, molho madeira, limão</span>
                     </div>
                     <div class="item-price">R$ 120</div>
                 </div>
@@ -605,11 +613,10 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Bife à Parmegiana</span>
-                        <span class="item-details">Serve 2 pessoas | 1 pessoa</span>
+                        <span class="item-details">Individual (Livre) / Para 2 pessoas (SEM Repetição)</span>
                     </div>
-                    <div class="item-price">R$ 70 / R$ 50</div>
+                    <div class="item-price">R$ 55 / R$ 70</div>
                 </div>
-
             </div>
 
             <div class="menu-section fade-in" data-category="lanches">
@@ -617,14 +624,16 @@
                 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Xis Salada</span>
+                        <span class="item-name">X Salada</span>
+                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, hambúrguer</span>
                     </div>
                     <div class="item-price">R$ 25</div>
                 </div>
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Xis Acebolado</span>
+                        <span class="item-name">X Acebolado</span>
+                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, hambúrguer e cebola na chapa</span>
                     </div>
                     <div class="item-price">R$ 27</div>
                 </div>
@@ -632,6 +641,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Xis Frango</span>
+                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, frango desfiado</span>
                     </div>
                     <div class="item-price">R$ 25</div>
                 </div>
@@ -639,6 +649,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Xis Bacon</span>
+                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, bacon</span>
                     </div>
                     <div class="item-price">R$ 28</div>
                 </div>
@@ -646,7 +657,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Xis Calabresa</span>
-                        <span class="item-details">Opções especiais</span>
+                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, calabresa</span>
                     </div>
                     <div class="item-price">R$ 28</div>
                 </div>
@@ -654,22 +665,25 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Xis Coração</span>
+                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, coração</span>
                     </div>
                     <div class="item-price">R$ 31</div>
                 </div>
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Xis Tudo</span>
+                        <span class="item-name">X Tudo</span>
                         <span class="special-badge">COMPLETO</span>
+                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, bacon, calabresa e frango desfiado</span>
                     </div>
                     <div class="item-price">R$ 33</div>
                 </div>
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Xis Turbo</span>
+                        <span class="item-name">X Turbo</span>
                         <span class="special-badge">TOP</span>
+                        <span class="item-details">Pão, maionese, milho em dobro, ervilha em dobro, tomate em dobro, ovo, 2 presuntos, queijo, hambúrguer</span>
                     </div>
                     <div class="item-price">R$ 35</div>
                 </div>
@@ -681,6 +695,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Pastel Médio</span>
+                        <span class="item-details">Diversos sabores disponíveis</span>
                     </div>
                     <div class="item-price">R$ 15</div>
                 </div>
@@ -688,22 +703,25 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Pastel Grande</span>
+                        <span class="item-details">Diversos sabores disponíveis</span>
                     </div>
                     <div class="item-price">R$ 22</div>
                 </div>
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Chocolate Preto/Branco</span>
+                        <span class="item-name">Sabores Doces</span>
+                        <span class="item-details">Branco, Preto, Misto, Prestígio, Sensação</span>
                     </div>
-                    <div class="item-price">R$ 22</div>
+                    <div class="item-price">Conforme tamanho</div>
                 </div>
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Frango</span>
+                        <span class="item-name">Sabores Salgados</span>
+                        <span class="item-details">Frango, Calabresa, Bacon, Misto Salgado (frango e bacon)</span>
                     </div>
-                    <div class="item-price">R$ 14</div>
+                    <div class="item-price">Conforme tamanho</div>
                 </div>
             </div>
 
@@ -713,25 +731,41 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Refrigerantes</span>
-                        <span class="item-details">Lata | 600ml | 1L</span>
+                        <span class="item-details">Lata / 600ml / 1 Litro / 2 Litros</span>
                     </div>
-                    <div class="item-price">R$ 7 | R$ 6 | R$ 14</div>
+                    <div class="item-price">R$ 6 <span class="price-separator">/</span> R$ 8 <span class="price-separator">/</span> R$ 10 <span class="price-separator">/</span> R$ 14</div>
                 </div>
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Sucos Naturais</span>
-                        <span class="item-details">500ml - Diversos sabores</span>
+                        <span class="item-name">Suco Natural</span>
+                        <span class="item-details">Diversos sabores frescos</span>
                     </div>
-                    <div class="item-price">R$ 6</div>
+                    <div class="item-price">R$ 8</div>
                 </div>
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Cerveja</span>
-                        <span class="item-details">Polar, Skol, Original, Heineken</span>
+                        <span class="item-name">Cerveja Latão</span>
+                        <span class="item-details">Diversas marcas disponíveis</span>
                     </div>
-                    <div class="item-price">R$ 12 - R$ 14</div>
+                    <div class="item-price">R$ 8</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Cerveja Long Neck</span>
+                        <span class="item-details">Diversas marcas disponíveis</span>
+                    </div>
+                    <div class="item-price">R$ 10</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Cerveja Garrafa</span>
+                        <span class="item-details">Diversas marcas disponíveis</span>
+                    </div>
+                    <div class="item-price">R$ 12</div>
                 </div>
 
                 <div class="menu-item">
@@ -744,10 +778,18 @@
 
                 <div class="menu-item">
                     <div>
-                        <span class="item-name">Energéticos</span>
-                        <span class="item-details">Red Bull, Monster, Gatorade</span>
+                        <span class="item-name">Água</span>
+                        <span class="item-details">500ml</span>
                     </div>
-                    <div class="item-price">R$ 13 - R$ 20</div>
+                    <div class="item-price">R$ 5</div>
+                </div>
+
+                <div class="menu-item">
+                    <div>
+                        <span class="item-name">Energéticos</span>
+                        <span class="item-details">Lata / 600ml </span>
+                    </div>
+                    <div class="item-price">R$ 13</div>
                 </div>
             </div>
         </div>
@@ -756,7 +798,7 @@
             <h2 style="color: var(--laranja-principal); margin-bottom: 25px;">Peça pelo WhatsApp</h2>
             
             <div class="qr-code">
-                <img src="img/Logo-Arilson-AA.png" alt="Logo Ponto Certo">
+                <img src="img/Logo.png" alt="Logo Ponto Certo">
             </div>
             
             <a href="https://wa.me/+5554999865980" class="whatsapp-btn">
@@ -817,6 +859,45 @@
         // Parallax effect on scroll - reduzido para melhor performance
 let ticking = false;
 
+  // Envolve cada "/" textual dentro de .item-price com <span class="price-separator">/</span>
+  // Sem duplicar onde você já colocou manualmente.
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.item-price').forEach(container => {
+      // Se já há <span class="price-separator">, pulamos o replace puro para evitar duplicações
+      if (container.querySelector('.price-separator')) return;
+
+      // Maneira robusta: trabalha só em nós de texto para não quebrar HTML interno
+      const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+      const texts = [];
+      while (walker.nextNode()) texts.push(walker.currentNode);
+
+      texts.forEach(node => {
+        const txt = node.nodeValue;
+        if (!txt.includes('/')) return;
+
+        const frag = document.createDocumentFragment();
+        const parts = txt.split('/');
+
+        parts.forEach((part, i) => {
+          // texto antes/entre barras
+          if (part.trim().length) frag.appendChild(document.createTextNode(part.trim()));
+          // recoloca a barra estilizada (menos após o último pedaço)
+          if (i < parts.length - 1) {
+            frag.appendChild(document.createTextNode(' '));
+            const span = document.createElement('span');
+            span.className = 'price-separator';
+            span.textContent = '/';
+            frag.appendChild(span);
+            frag.appendChild(document.createTextNode(' '));
+          }
+        });
+
+        node.parentNode.replaceChild(frag, node);
+      });
+    });
+  });
+  </script>
+
 function updateParallax() {
   const scrolled = window.scrollY || window.pageYOffset;
   const header = document.querySelector('.header');
@@ -838,6 +919,3 @@ window.addEventListener('scroll', onScroll, { passive: true });
 
 // opcional: aplica o estado inicial ao carregar
 updateParallax();
-
-
-
