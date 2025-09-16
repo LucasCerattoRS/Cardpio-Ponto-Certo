@@ -575,7 +575,9 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Batata Frita</span>
-                        <span class="item-details">Porção pequena / Grande</span>
+                        <span class="item-details">Porção pequena / Grande
+                        <span class="special-badge">+R$ 10 Cheddar & Bacon</span>
+                        </span>
                     </div>
                     <div class="item-price">R$ 18 / R$ 25</div>
                 </div>
@@ -594,7 +596,7 @@
                         <span class="special-badge">ESPECIAL</span>
                         <span class="item-details">Polenta, aipim, queijo, batata, anel de cebola, ovo de codorna, pepino, carne de gado, carne de frango, carne calabresa, maionese</span>
                     </div>
-                    <div class="item-price">R$ 75 / 95 </div>
+                    <div class="item-price">R$ 75 / R$ 95 </div>
                 </div>
                 
                 <div class="menu-item">
@@ -625,7 +627,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">X Salada</span>
-                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, hambúrguer</span>
+                        <span class="item-details">Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo, hambúrguer</span>
                     </div>
                     <div class="item-price">R$ 25</div>
                 </div>
@@ -633,7 +635,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">X Acebolado</span>
-                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, hambúrguer e cebola na chapa</span>
+                        <span class="item-details">Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo, hambúrguer e cebola na chapa</span>
                     </div>
                     <div class="item-price">R$ 27</div>
                 </div>
@@ -641,7 +643,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Xis Frango</span>
-                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, frango desfiado</span>
+                        <span class="item-details">Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo, frango desfiado</span>
                     </div>
                     <div class="item-price">R$ 25</div>
                 </div>
@@ -649,7 +651,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Xis Bacon</span>
-                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, bacon</span>
+                        <span class="item-details">Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo, bacon</span>
                     </div>
                     <div class="item-price">R$ 28</div>
                 </div>
@@ -657,7 +659,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Xis Calabresa</span>
-                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, calabresa</span>
+                        <span class="item-details">Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo, calabresa</span>
                     </div>
                     <div class="item-price">R$ 28</div>
                 </div>
@@ -665,7 +667,7 @@
                 <div class="menu-item">
                     <div>
                         <span class="item-name">Xis Coração</span>
-                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, coração</span>
+                        <span class="item-details">Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo, coração</span>
                     </div>
                     <div class="item-price">R$ 31</div>
                 </div>
@@ -674,7 +676,7 @@
                     <div>
                         <span class="item-name">X Tudo</span>
                         <span class="special-badge">COMPLETO</span>
-                        <span class="item-details">Pão, maionese, milho, ervilha, tomate, ovo, presunto, queijo, bacon, calabresa e frango desfiado</span>
+                        <span class="item-details">Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo, bacon, calabresa e frango desfiado</span>
                     </div>
                     <div class="item-price">R$ 33</div>
                 </div>
@@ -683,7 +685,7 @@
                     <div>
                         <span class="item-name">X Turbo</span>
                         <span class="special-badge">TOP</span>
-                        <span class="item-details">Pão, maionese, milho em dobro, ervilha em dobro, tomate em dobro, ovo, 2 presuntos, queijo, hambúrguer</span>
+                        <span class="item-details">Pão, maionese, salada, milho em dobro, ervilha em dobro, tomate em dobro, ovo, 2 presuntos, queijo, hambúrguer</span>
                     </div>
                     <div class="item-price">R$ 35</div>
                 </div>
@@ -898,13 +900,11 @@ let ticking = false;
   });
   </script>
 
+<script>
 function updateParallax() {
   const scrolled = window.scrollY || window.pageYOffset;
   const header = document.querySelector('.header');
-  if (header) {
-    // ajuste o fator 0.3 pro efeito desejado
-    header.style.transform = `translateY(${scrolled * 0.3}px)`;
-  }
+  if (header) header.style.transform = `translateY(${scrolled * 0.3}px)`;
   ticking = false;
 }
 
@@ -916,6 +916,7 @@ function onScroll() {
 }
 
 window.addEventListener('scroll', onScroll, { passive: true });
-
-// opcional: aplica o estado inicial ao carregar
 updateParallax();
+</script>
+</body>
+</html>
