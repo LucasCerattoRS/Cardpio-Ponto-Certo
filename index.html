@@ -2,14 +2,17 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <!-- VIEWPORT OTIMIZADA PARA MOBILE: Impede zoom acidental e ajusta largura -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Ponto Certo - Restaurante e Lancheria</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* --- RESET E VARIÁVEIS --- */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            /* Remove o flash de clique azul em celulares Android/Chrome */
             -webkit-tap-highlight-color: transparent;
         }
 
@@ -23,82 +26,78 @@
             --laranja-claro: #FFAB91;
             --verde-claro: #A5D6A7;
             --verde-escuro: #388E3C;
-            --laranja-escuro: #D84315;
             --item-border: rgba(255, 112, 67, 0.2);
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--preto-fundo);
             color: var(--branco-texto);
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Evita rolagem lateral indesejada */
             line-height: 1.5;
-            padding-bottom: 60px; /* Espaço para footer */
+            padding-bottom: 80px; /* Espaço extra no final para scroll total em telas pequenas */
         }
 
-        /* Header Styles */
+        /* --- CABEÇALHO --- */
         .header {
             text-align: center;
-            padding: 40px 15px 25px;
+            padding: 30px 15px 20px;
             background: linear-gradient(180deg, rgba(30,30,30,1) 0%, rgba(18,18,18,1) 100%);
             border-bottom: 2px solid var(--laranja-principal);
-            position: relative;
-            z-index: 2;
         }
 
         h1 {
-            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-size: clamp(2rem, 8vw, 3rem); /* Fonte se adapta ao tamanho da tela */
             color: var(--laranja-principal);
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             margin-bottom: 5px;
             font-weight: 800;
             line-height: 1.1;
         }
 
         .subtitle {
-            font-size: 0.9rem;
-            color: var(--verde-principal) !important;
-            letter-spacing: 3px;
+            font-size: 0.85rem;
+            color: var(--verde-principal);
+            letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 10px;
             font-weight: 600;
         }
 
         .location {
             display: inline-block;
+            margin-top: 8px;
             background: rgba(102, 187, 106, 0.15);
             color: var(--verde-principal);
             padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             border: 1px solid var(--verde-principal);
             font-weight: 600;
         }
 
-        /* Hero Images - Otimizado para Mobile (Scroll Horizontal) */
+        /* --- HERO IMAGES (CARROSSEL ESTILO STORIES) --- */
+        /* Focado em mobile: scroll horizontal suave */
         .hero-images {
             display: flex;
-            gap: 15px;
-            padding: 20px;
+            gap: 12px;
+            padding: 20px 15px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch; /* Suavidade no iOS */
-            scrollbar-width: none; /* Firefox */
+            -webkit-overflow-scrolling: touch; /* Suavidade nativa no iOS */
+            scrollbar-width: none; /* Esconde barra no Firefox */
         }
         
-        .hero-images::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
-        }
+        .hero-images::-webkit-scrollbar { display: none; } /* Esconde barra no Chrome/Safari */
 
         .hero-img {
-            flex: 0 0 85%; /* Ocupa 85% da tela no celular para mostrar que tem mais ao lado */
-            max-width: 300px;
-            height: 180px;
+            flex: 0 0 85vw; /* Ocupa 85% da largura da viewport do celular */
+            max-width: 350px;
+            height: 200px;
             border-radius: 12px;
             overflow: hidden;
-            scroll-snap-align: center;
+            scroll-snap-align: center; /* Centraliza a imagem ao parar o scroll */
             border: 2px solid var(--verde-principal);
             background: var(--preto-secundario);
             position: relative;
@@ -109,18 +108,20 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            /* Protege a imagem de ser arrastada no desktop/mobile */
+            pointer-events: none; 
         }
 
-        /* Sticky Navigation */
+        /* --- NAVEGAÇÃO STICKY (GRUDA NO TOPO) --- */
         .nav-container {
-            position: sticky;
+            position: sticky; /* Essencial para mobile */
             top: 0;
             z-index: 100;
-            background: rgba(18, 18, 18, 0.95);
-            backdrop-filter: blur(8px);
-            padding: 10px 0;
+            background: rgba(18, 18, 18, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 12px 0;
             border-bottom: 1px solid var(--item-border);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
         }
 
         .tab-nav {
@@ -138,9 +139,9 @@
             background: rgba(255, 112, 67, 0.05);
             color: var(--cinza-texto);
             border: 1px solid var(--item-border);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
+            padding: 10px 20px; /* Área de toque maior */
+            border-radius: 25px;
+            font-size: 0.9rem;
             white-space: nowrap;
             transition: all 0.2s ease;
             font-weight: 600;
@@ -151,127 +152,117 @@
             background: var(--laranja-principal);
             color: var(--preto-fundo);
             border-color: var(--laranja-principal);
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(255, 112, 67, 0.4);
+            box-shadow: 0 0 15px rgba(255, 112, 67, 0.3);
         }
 
-        /* Menu Grid */
+        /* --- GRID DO CARDÁPIO --- */
         .menu-container {
-            max-width: 800px; /* Limitado para leitura melhor em desktop */
+            max-width: 100%;
             margin: 0 auto;
             padding: 15px;
         }
 
         .menu-section {
             margin-bottom: 30px;
+            /* Animação suave ao filtrar */
             animation: fadeIn 0.4s ease-out;
         }
 
         h2 {
             color: var(--laranja-principal);
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             margin-bottom: 15px;
             padding-left: 10px;
             border-left: 4px solid var(--verde-principal);
             text-transform: uppercase;
             font-weight: 800;
-            letter-spacing: 1px;
         }
 
-        /* Menu Items Card Style */
+        /* --- ITEM DO CARDÁPIO (CARD) --- */
         .menu-item {
             background: var(--preto-secundario);
             border: 1px solid var(--item-border);
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             position: relative;
-            overflow: hidden;
+            /* Garante performance de renderização no mobile */
+            transform: translateZ(0); 
         }
 
-        .menu-item::after {
+        /* Detalhe lateral laranja */
+        .menu-item::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
+            top: 10%; bottom: 10%; left: 0; width: 4px;
             background: var(--laranja-principal);
-            opacity: 0.7;
+            border-radius: 0 4px 4px 0;
+            opacity: 0.8;
         }
 
-        /* Top Row: Name and basic badges */
         .item-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            gap: 10px;
+            gap: 15px;
         }
 
         .item-name {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             color: var(--branco-texto);
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.3;
         }
 
         .item-details {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--cinza-texto);
-            display: block;
-            margin-top: 6px;
-            line-height: 1.4;
+            margin-top: 5px;
+            line-height: 1.5;
         }
 
-        /* Badges */
+        /* --- BADGES (Etiquetas) --- */
         .badge-container {
-            display: inline-flex;
+            display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin-top: 4px;
+            gap: 6px;
+            margin-top: 8px;
         }
 
-        .special-badge, .green-badge {
+        .badge {
             font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 4px;
+            padding: 3px 8px;
+            border-radius: 6px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        .special-badge {
-            background: var(--laranja-principal);
-            color: var(--preto-fundo);
-        }
+        .badge-new { background: var(--laranja-principal); color: var(--preto-fundo); }
+        .badge-info { background: var(--verde-principal); color: var(--preto-fundo); }
+        .badge-extra { background: rgba(255,255,255,0.1); color: var(--branco-texto); border: 1px solid rgba(255,255,255,0.2); }
 
-        .green-badge {
-            background: var(--verde-principal);
-            color: var(--preto-fundo);
-        }
-
-        /* --- PRICE STYLING SYSTEM --- */
-        
-        /* Single Price */
+        /* --- PREÇOS --- */
+        /* Preço Único destaque */
         .price-single {
-            align-self: flex-end;
             color: var(--laranja-principal);
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size: 1.25rem;
+            font-weight: 800;
+            white-space: nowrap;
             background: rgba(255, 112, 67, 0.1);
-            padding: 4px 10px;
+            padding: 4px 8px;
             border-radius: 6px;
         }
 
-        /* Multi Price Stack (The Requested Layout) */
+        /* Lista de Preços (P, M, G) */
         .price-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            margin-top: 8px;
-            background: rgba(0,0,0,0.2);
-            padding: 10px;
+            margin-top: 12px;
+            background: rgba(0,0,0,0.3);
             border-radius: 8px;
+            padding: 2px 0;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
@@ -279,72 +270,47 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
-            padding-bottom: 4px;
-            margin-bottom: 2px;
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .price-row:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-            margin-bottom: 0;
-        }
+        .price-row:last-child { border-bottom: none; }
 
-        .price-label {
-            color: var(--verde-claro);
-            font-size: 0.9rem;
-            font-weight: 500;
-        }
+        .price-label { color: var(--verde-claro); font-size: 0.9rem; font-weight: 500; }
+        .price-value { color: var(--laranja-principal); font-weight: 700; font-size: 1.1rem; }
 
-        .price-value {
-            color: var(--laranja-principal);
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-
-        /* Horizontal Price Grid for Drinks */
+        /* Grid de Preços (Bebidas) */
         .price-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            grid-template-columns: repeat(2, 1fr); /* 2 por linha no celular */
             gap: 8px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
         
         .price-chip {
             background: rgba(255,255,255,0.05);
-            padding: 6px;
-            border-radius: 6px;
+            padding: 8px;
+            border-radius: 8px;
             text-align: center;
             border: 1px solid rgba(255,255,255,0.05);
         }
 
-        .chip-label {
-            display: block;
-            font-size: 0.75rem;
-            color: var(--cinza-texto);
-            margin-bottom: 2px;
-        }
+        .chip-lbl { display: block; font-size: 0.75rem; color: var(--cinza-texto); margin-bottom: 2px; }
+        .chip-val { display: block; color: var(--laranja-principal); font-weight: bold; font-size: 1rem; }
 
-        .chip-value {
-            display: block;
-            color: var(--laranja-principal);
-            font-weight: bold;
-            font-size: 1rem;
-        }
-
-        /* Contact Section */
+        /* --- FOOTER & CONTATO --- */
         .contact-section {
             text-align: center;
-            margin-top: 30px;
-            padding: 25px 15px;
+            margin-top: 40px;
+            padding: 30px 20px;
             background: linear-gradient(135deg, rgba(255, 112, 67, 0.08), rgba(102, 187, 106, 0.08));
-            border-radius: 15px;
+            border-radius: 20px;
             border: 1px solid var(--item-border);
         }
 
         .qr-code {
-            width: 140px;
-            height: 140px;
+            width: 160px;
+            height: 160px;
             margin: 20px auto;
             background: white;
             padding: 10px;
@@ -361,56 +327,44 @@
             gap: 10px;
             background: var(--verde-escuro);
             color: white;
-            padding: 14px;
+            padding: 16px;
             border-radius: 50px;
             text-decoration: none;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
             box-shadow: 0 4px 15px rgba(56, 142, 60, 0.4);
-            margin-top: 15px;
+            margin-top: 20px;
+            transition: transform 0.2s;
         }
+
+        .whatsapp-btn:active { transform: scale(0.95); }
 
         .footer {
             text-align: center;
-            padding: 20px;
-            margin-top: 20px;
+            padding: 30px 15px;
             color: var(--cinza-texto);
             font-size: 0.8rem;
             border-top: 1px solid var(--item-border);
+            margin-top: 20px;
         }
 
-        /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Desktop Adjustments */
+        /* --- ADAPTAÇÃO PARA TABLET/DESKTOP --- */
         @media (min-width: 768px) {
             .menu-container {
                 display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
                 gap: 20px;
             }
-            
-            .menu-section {
-                grid-column: 1 / -1; /* Header full width */
-            }
-            
-            .menu-section > div {
-                /* Grid for items */
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-                gap: 15px;
-            }
-            
-            .menu-section h2 {
-                grid-column: 1 / -1;
-            }
-
-            .hero-img {
-                flex: 0 0 300px;
-            }
+            .menu-section { grid-column: 1 / -1; }
+            .menu-section > div { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 15px; }
+            .menu-section h2 { grid-column: 1 / -1; }
+            .hero-img { flex: 0 0 300px; }
+            .price-grid { grid-template-columns: repeat(4, 1fr); }
         }
     </style>
 </head>
@@ -421,15 +375,16 @@
         <div class="location"><i class="fas fa-map-marker-alt"></i> PARAÍ</div>
     </div>
 
+    <!-- IMAGENS: REFERÊNCIAS ORIGINAIS MANTIDAS (NÃO ALTERAR) -->
     <div class="hero-images">
         <div class="hero-img">
-            <img src="img/Italiana.jpg" alt="Porção Italiana">
+            <img src="img/Italiana.jpg" alt="Porção">
         </div>
         <div class="hero-img">
-            <img src="img/Xis.png" alt="Xis especial">
+            <img src="img/Xis.png" alt="Lanche">
         </div>
         <div class="hero-img">
-            <img src="img/Caipirinha.png" alt="Caipirinha">
+            <img src="img/Caipirinha.pn" alt="Bebida">
         </div>
     </div>
 
@@ -446,9 +401,23 @@
 
     <div class="menu-container" id="menuGrid">
         
+        <!-- ================= ENTRADAS & PORÇÕES ================= -->
         <div class="menu-section" data-category="entradas">
             <h2>Entradas & Porções</h2>
             
+            <!-- ITEM NOVO: Porção Especial -->
+            <div class="menu-item" style="border-color: var(--laranja-principal); background: rgba(255, 112, 67, 0.05);">
+                <div class="item-header">
+                    <span class="item-name">"Não Sei o Nome, Só Sei Que é Bom"</span>
+                    <span class="price-single">R$ 100</span>
+                </div>
+                <div class="badge-container">
+                    <span class="badge badge-new">NOVIDADE</span>
+                    <span class="badge badge-info">SERVE 3 PESSOAS</span>
+                </div>
+                <span class="item-details">Polenta de chapa coberta de queijo mussarela, coração, dadinhos de tapioca, filé de tilápia, chocolate especial, maionese caseira.</span>
+            </div>
+
             <div class="menu-item">
                 <div class="item-header">
                     <span class="item-name">Batata Frita</span>
@@ -456,19 +425,28 @@
                 <div class="item-details">
                     Porção tradicional crocante
                     <div class="badge-container">
-                        <span class="special-badge">+R$ 10 Cheddar & Bacon</span>
+                        <span class="badge badge-new">+R$ 10 Cheddar & Bacon</span>
                     </div>
                 </div>
                 <div class="price-stack">
                     <div class="price-row">
                         <span class="price-label">Pequena</span>
-                        <span class="price-value">R$ 18</span>
+                        <span class="price-value">R$ 20</span>
                     </div>
                     <div class="price-row">
                         <span class="price-label">Grande</span>
                         <span class="price-value">R$ 25</span>
                     </div>
                 </div>
+            </div>
+
+            <!-- ITEM NOVO: Tilápia -->
+            <div class="menu-item">
+                <div class="item-header">
+                    <span class="item-name">Tilápia com Polenta</span>
+                    <span class="price-single">R$ 50</span>
+                </div>
+                <span class="item-details">Filé de tilápia com polenta</span>
             </div>
 
             <div class="menu-item">
@@ -482,56 +460,50 @@
             <div class="menu-item">
                 <div class="item-header">
                     <span class="item-name">Picadão</span>
-                    <span class="special-badge">ESPECIAL</span>
+                    <span class="badge badge-new">ESPECIAL</span>
                 </div>
                 <span class="item-details">Polenta, aipim, queijo, batata, anel de cebola, ovo de codorna, pepino, carne de gado, frango, calabresa, maionese</span>
                 <div class="price-stack">
                     <div class="price-row">
-                        <span class="price-label">Médio</span>
-                        <span class="price-value">R$ 75</span>
+                        <span class="price-label">Médio (2 a 3 pessoas)</span>
+                        <span class="price-value">R$ 80</span>
                     </div>
                     <div class="price-row">
-                        <span class="price-label">Grande</span>
-                        <span class="price-value">R$ 95</span>
+                        <span class="price-label">Grande (4 a 5 pessoas)</span>
+                        <span class="price-value">R$ 100</span>
                     </div>
                 </div>
-            </div>
-            
-            <div class="menu-item">
-                <div class="item-header">
-                    <span class="item-name">Porção Italiana</span>
-                    <span class="price-single">R$ 120</span>
-                </div>
-                <div class="badge-container">
-                    <span class="green-badge">RECOMENDADO</span>
-                </div>
-                <span class="item-details">Polenta na chapa, queijo na chapa, salame na chapa, filé tilápia frito, molho madeira, limão</span>
             </div>
         </div>
 
+        <!-- ================= PRATOS PRINCIPAIS ================= -->
         <div class="menu-section" data-category="pratos">
             <h2>Pratos Principais</h2>
             
             <div class="menu-item">
                 <div class="item-header">
                     <span class="item-name">Bife à Parmegiana</span>
+                    <span class="price-single">R$ 60</span>
                 </div>
-                <div class="price-stack">
-                    <div class="price-row">
-                        <span class="price-label">Individual (Livre)</span>
-                        <span class="price-value">R$ 55</span>
-                    </div>
-                    <div class="price-row">
-                        <span class="price-label">Para 2 (Sem repetição)</span>
-                        <span class="price-value">R$ 70</span>
-                    </div>
+                <div class="badge-container">
+                    <span class="badge badge-info">SERVE 2 PESSOAS</span>
                 </div>
+                <span class="item-details">Delicioso bife à parmegiana com acompanhamentos.</span>
             </div>
         </div>
 
+        <!-- ================= LANCHES ================= -->
         <div class="menu-section" data-category="lanches">
-            <h2>Xis (Lanches)</h2>
+            <h2>Lanches</h2>
             
+            <!-- ITEM NOVO: Burguer -->
+            <div class="menu-item">
+                <div class="item-header">
+                    <span class="item-name">Hambúrguer Tradicional</span>
+                </div>
+                <span class="item-details">Pão, carne, queijo e salada. <br><em style="font-size: 0.8em; color: var(--laranja-claro);">Consulte valor no balcão</em></span>
+            </div>
+
             <div class="menu-item">
                 <div class="item-header">
                     <span class="item-name">X Salada</span>
@@ -585,7 +557,7 @@
                     <span class="item-name">X Tudo</span>
                     <span class="price-single">R$ 33</span>
                 </div>
-                <div class="badge-container"><span class="special-badge">COMPLETO</span></div>
+                <div class="badge-container"><span class="badge badge-new">COMPLETO</span></div>
                 <span class="item-details">Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo, bacon, calabresa e frango desfiado</span>
             </div>
 
@@ -594,11 +566,12 @@
                     <span class="item-name">X Turbo</span>
                     <span class="price-single">R$ 35</span>
                 </div>
-                <div class="badge-container"><span class="special-badge">TOP</span></div>
+                <div class="badge-container"><span class="badge badge-new">TOP</span></div>
                 <span class="item-details">Pão, maionese, salada, milho em dobro, ervilha em dobro, tomate em dobro, ovo, 2 presuntos, queijo, hambúrguer</span>
             </div>
         </div>
 
+        <!-- ================= PASTÉIS ================= -->
         <div class="menu-section" data-category="pasteis">
             <h2>Pastéis</h2>
             
@@ -633,6 +606,7 @@
             </div>
         </div>
 
+        <!-- ================= BEBIDAS ================= -->
         <div class="menu-section" data-category="bebidas">
             <h2>Bebidas</h2>
             
@@ -642,20 +616,20 @@
                 </div>
                 <div class="price-grid">
                     <div class="price-chip">
-                        <span class="chip-label">Lata</span>
-                        <span class="chip-value">R$ 6</span>
+                        <span class="chip-lbl">Lata</span>
+                        <span class="chip-val">R$ 6</span>
                     </div>
                     <div class="price-chip">
-                        <span class="chip-label">600ml</span>
-                        <span class="chip-value">R$ 8</span>
+                        <span class="chip-lbl">600ml</span>
+                        <span class="chip-val">R$ 8</span>
                     </div>
                     <div class="price-chip">
-                        <span class="chip-label">1 Litro</span>
-                        <span class="chip-value">R$ 10</span>
+                        <span class="chip-lbl">1 Litro</span>
+                        <span class="chip-val">R$ 10</span>
                     </div>
                     <div class="price-chip">
-                        <span class="chip-label">2 Litros</span>
-                        <span class="chip-value">R$ 14</span>
+                        <span class="chip-lbl">2 Litros</span>
+                        <span class="chip-val">R$ 18</span>
                     </div>
                 </div>
             </div>
@@ -670,8 +644,8 @@
 
             <div class="menu-item">
                 <div class="item-header">
-                    <span class="item-name">Cerveja Latão</span>
-                    <span class="price-single">R$ 8</span>
+                    <span class="item-name">Cerveja Lata</span>
+                    <span class="price-single">R$ 10</span>
                 </div>
             </div>
 
@@ -709,8 +683,8 @@
                 </div>
                 <div class="price-stack">
                     <div class="price-row">
-                        <span class="price-label">Lata</span>
-                        <span class="price-value">R$ 13</span>
+                        <span class="price-label">Latão</span>
+                        <span class="price-value">R$ 15</span>
                     </div>
                     <div class="price-row">
                         <span class="price-label">600ml</span>
@@ -742,32 +716,27 @@
 
     <script>
         function filterMenu(category) {
-            // 1. Seleciona todas as seções do menu
             const sections = document.querySelectorAll('.menu-section');
-            
-            // 2. Lógica de Filtragem
+            const buttons = document.querySelectorAll('.tab-btn');
+
+            // Feedback visual: rolar suavemente para o topo da lista
+            if(window.scrollY > 300) {
+                window.scrollTo({top: 350, behavior: 'smooth'});
+            }
+
             sections.forEach(section => {
-                // Se a categoria for 'all', mostra tudo. 
-                // Senão, verifica se o data-category bate com o botão clicado
                 if (category === 'all' || section.getAttribute('data-category') === category) {
                     section.style.display = 'block';
-                    // Re-aplica a animação para ficar suave
                     section.style.animation = 'none';
                     section.offsetHeight; /* trigger reflow */
-                    section.style.animation = 'fadeIn 0.4s ease-out';
+                    section.style.animation = 'fadeIn 0.3s ease-out';
                 } else {
                     section.style.display = 'none';
                 }
             });
 
-            // 3. Atualiza o visual dos botões (Classe Active)
-            const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => {
-                // Remove active de todos
                 btn.classList.remove('active');
-                
-                // Verifica qual botão foi clicado baseando-se no atributo onclick
-                // (Uma forma simples de verificar sem adicionar IDs em cada botão)
                 if (btn.getAttribute('onclick').includes(`'${category}'`)) {
                     btn.classList.add('active');
                 }
