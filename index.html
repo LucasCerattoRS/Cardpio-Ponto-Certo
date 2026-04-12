@@ -1,0 +1,921 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- VIEWPORT OTIMIZADA PARA MOBILE: Impede zoom acidental e ajusta largura -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Ponto Certo - Restaurante e Lancheria</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      /* --- RESET E VARIÁVEIS --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        /* Remove o flash de clique azul em celulares Android/Chrome */
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      :root {
+        --laranja-principal: #ff7043;
+        --verde-principal: #66bb6a;
+        --preto-fundo: #121212;
+        --preto-secundario: #1e1e1e;
+        --branco-texto: #ffffff;
+        --cinza-texto: #b0b0b0;
+        --laranja-claro: #ffab91;
+        --verde-claro: #a5d6a7;
+        --verde-escuro: #388e3c;
+        --item-border: rgba(255, 112, 67, 0.2);
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        background: var(--preto-fundo);
+        color: var(--branco-texto);
+        min-height: 100vh;
+        overflow-x: hidden; /* Evita rolagem lateral indesejada */
+        line-height: 1.5;
+        padding-bottom: 80px; /* Espaço extra no final para scroll total em telas pequenas */
+      }
+
+      /* --- CABEÇALHO --- */
+      .header {
+        text-align: center;
+        padding: 30px 15px 20px;
+        background: linear-gradient(
+          180deg,
+          rgba(30, 30, 30, 1) 0%,
+          rgba(18, 18, 18, 1) 100%
+        );
+        border-bottom: 2px solid var(--laranja-principal);
+      }
+
+      h1 {
+        font-size: clamp(
+          2rem,
+          8vw,
+          3rem
+        ); /* Fonte se adapta ao tamanho da tela */
+        color: var(--laranja-principal);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+        font-weight: 800;
+        line-height: 1.1;
+      }
+
+      .subtitle {
+        font-size: 0.85rem;
+        color: var(--verde-principal);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .location {
+        display: inline-block;
+        margin-top: 8px;
+        background: rgba(102, 187, 106, 0.15);
+        color: var(--verde-principal);
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        border: 1px solid var(--verde-principal);
+        font-weight: 600;
+      }
+
+      /* --- HERO IMAGES (CARROSSEL ESTILO STORIES) --- */
+      /* Focado em mobile: scroll horizontal suave */
+      .hero-images {
+        display: flex;
+        gap: 12px;
+        padding: 20px 15px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch; /* Suavidade nativa no iOS */
+        scrollbar-width: none; /* Esconde barra no Firefox */
+      }
+
+      .hero-images::-webkit-scrollbar {
+        display: none;
+      } /* Esconde barra no Chrome/Safari */
+
+      .hero-img {
+        flex: 0 0 85vw; /* Ocupa 85% da largura da viewport do celular */
+        max-width: 350px;
+        height: 200px;
+        border-radius: 12px;
+        overflow: hidden;
+        scroll-snap-align: center; /* Centraliza a imagem ao parar o scroll */
+        border: 2px solid var(--verde-principal);
+        background: var(--preto-secundario);
+        position: relative;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* Protege a imagem de ser arrastada no desktop/mobile */
+        pointer-events: none;
+      }
+
+      /* --- NAVEGAÇÃO STICKY (GRUDA NO TOPO) --- */
+      .nav-container {
+        position: sticky; /* Essencial para mobile */
+        top: 0;
+        z-index: 100;
+        background: rgba(18, 18, 18, 0.98);
+        backdrop-filter: blur(10px);
+        padding: 12px 0;
+        border-bottom: 1px solid var(--item-border);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      }
+
+      .tab-nav {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding: 0 15px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .tab-nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .tab-btn {
+        background: rgba(255, 112, 67, 0.05);
+        color: var(--cinza-texto);
+        border: 1px solid var(--item-border);
+        padding: 10px 20px; /* Área de toque maior */
+        border-radius: 25px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .tab-btn.active {
+        background: var(--laranja-principal);
+        color: var(--preto-fundo);
+        border-color: var(--laranja-principal);
+        box-shadow: 0 0 15px rgba(255, 112, 67, 0.3);
+      }
+
+      /* --- GRID DO CARDÁPIO --- */
+      .menu-container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 15px;
+      }
+
+      .menu-section {
+        margin-bottom: 30px;
+        /* Animação suave ao filtrar */
+        animation: fadeIn 0.4s ease-out;
+      }
+
+      h2 {
+        color: var(--laranja-principal);
+        font-size: 1.4rem;
+        margin-bottom: 15px;
+        padding-left: 10px;
+        border-left: 4px solid var(--verde-principal);
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+
+      /* --- ITEM DO CARDÁPIO (CARD) --- */
+      .menu-item {
+        background: var(--preto-secundario);
+        border: 1px solid var(--item-border);
+        border-radius: 12px;
+        padding: 16px;
+        margin-bottom: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        position: relative;
+        /* Garante performance de renderização no mobile */
+        transform: translateZ(0);
+      }
+
+      /* Detalhe lateral laranja */
+      .menu-item::before {
+        content: "";
+        position: absolute;
+        top: 10%;
+        bottom: 10%;
+        left: 0;
+        width: 4px;
+        background: var(--laranja-principal);
+        border-radius: 0 4px 4px 0;
+        opacity: 0.8;
+      }
+
+      .item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 15px;
+      }
+
+      .item-name {
+        font-size: 1.15rem;
+        color: var(--branco-texto);
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      .item-details {
+        font-size: 0.9rem;
+        color: var(--cinza-texto);
+        margin-top: 5px;
+        line-height: 1.5;
+      }
+
+      /* --- BADGES (Etiquetas) --- */
+      .badge-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 8px;
+      }
+
+      .badge {
+        font-size: 0.7rem;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .badge-new {
+        background: var(--laranja-principal);
+        color: var(--preto-fundo);
+      }
+      .badge-info {
+        background: var(--verde-principal);
+        color: var(--preto-fundo);
+      }
+      .badge-extra {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--branco-texto);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      /* --- PREÇOS --- */
+      /* Preço Único destaque */
+      .price-single {
+        color: var(--laranja-principal);
+        font-size: 1.25rem;
+        font-weight: 800;
+        white-space: nowrap;
+        background: rgba(255, 112, 67, 0.1);
+        padding: 4px 8px;
+        border-radius: 6px;
+      }
+
+      /* Lista de Preços (P, M, G) */
+      .price-stack {
+        margin-top: 12px;
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+        padding: 2px 0;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .price-row:last-child {
+        border-bottom: none;
+      }
+
+      .price-label {
+        color: var(--verde-claro);
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+      .price-value {
+        color: var(--laranja-principal);
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      /* Grid de Preços (Bebidas) */
+      .price-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 por linha no celular */
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .price-chip {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 8px;
+        border-radius: 8px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .chip-lbl {
+        display: block;
+        font-size: 0.75rem;
+        color: var(--cinza-texto);
+        margin-bottom: 2px;
+      }
+      .chip-val {
+        display: block;
+        color: var(--laranja-principal);
+        font-weight: bold;
+        font-size: 1rem;
+      }
+
+      /* --- FOOTER & CONTATO --- */
+      .contact-section {
+        text-align: center;
+        margin-top: 40px;
+        padding: 30px 20px;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 112, 67, 0.08),
+          rgba(102, 187, 106, 0.08)
+        );
+        border-radius: 20px;
+        border: 1px solid var(--item-border);
+      }
+
+      .qr-code {
+        width: 160px;
+        height: 160px;
+        margin: 20px auto;
+        background: white;
+        padding: 10px;
+        border-radius: 12px;
+        border: 3px solid var(--verde-principal);
+      }
+
+      .qr-code img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+
+      .whatsapp-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: var(--verde-escuro);
+        color: white;
+        padding: 16px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-size: 1.2rem;
+        font-weight: bold;
+        box-shadow: 0 4px 15px rgba(56, 142, 60, 0.4);
+        margin-top: 20px;
+        transition: transform 0.2s;
+      }
+
+      .whatsapp-btn:active {
+        transform: scale(0.95);
+      }
+
+      .footer {
+        text-align: center;
+        padding: 30px 15px;
+        color: var(--cinza-texto);
+        font-size: 0.8rem;
+        border-top: 1px solid var(--item-border);
+        margin-top: 20px;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* --- ADAPTAÇÃO PARA TABLET/DESKTOP --- */
+      @media (min-width: 768px) {
+        .menu-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+          gap: 20px;
+        }
+        .menu-section {
+          grid-column: 1 / -1;
+        }
+        .menu-section > div {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+          gap: 15px;
+        }
+        .menu-section h2 {
+          grid-column: 1 / -1;
+        }
+        .hero-img {
+          flex: 0 0 300px;
+        }
+        .price-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>PONTO CERTO</h1>
+      <div class="subtitle">RESTAURANTE E LANCHERIA</div>
+      <div class="location"><i class="fas fa-map-marker-alt"></i> PARAÍ</div>
+    </div>
+
+    <!-- IMAGENS: REFERÊNCIAS ORIGINAIS MANTIDAS (NÃO ALTERAR) -->
+    <div class="hero-images">
+      <div class="hero-img">
+        <img src="img/Italiana.jpg" alt="Porção" />
+      </div>
+      <div class="hero-img">
+        <img src="img/Xis.png" alt="Lanche" />
+      </div>
+      <div class="hero-img">
+        <img src="img/Caipirinha.png" alt="Bebida" />
+      </div>
+    </div>
+
+    <div class="nav-container">
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="filterMenu('all')">
+          Todos
+        </button>
+        <button class="tab-btn" onclick="filterMenu('entradas')">
+          Entradas
+        </button>
+        <button class="tab-btn" onclick="filterMenu('pratos')">Pratos</button>
+        <button class="tab-btn" onclick="filterMenu('lanches')">Lanches</button>
+        <button class="tab-btn" onclick="filterMenu('pasteis')">Pastéis</button>
+        <button class="tab-btn" onclick="filterMenu('bebidas')">Bebidas</button>
+      </div>
+    </div>
+
+    <div class="menu-container" id="menuGrid">
+      <!-- ================= ENTRADAS & PORÇÕES ================= -->
+      <div class="menu-section" data-category="entradas">
+        <h2>Entradas & Porções</h2>
+
+        <!-- ITEM: Porção Especial (Nome Atualizado) -->
+        <div
+          class="menu-item"
+          style="
+            border-color: var(--laranja-principal);
+            background: rgba(255, 112, 67, 0.05);
+          "
+        >
+          <div class="item-header">
+            <span class="item-name">Porção Especial Tamanho M</span>
+            <span class="price-single">R$ 100</span>
+          </div>
+          <div class="badge-container">
+            <span class="badge badge-new">NOVIDADE</span>
+            <span class="badge badge-info">SERVE 3 PESSOAS</span>
+          </div>
+          <span class="item-details"
+            >Serve 3 pessoas. Polenta de chapa coberta de queijo mussarela,
+            coração, dadinhos de tapioca, filé de tilápia, chocolate especial,
+            maionese caseira.</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Batata Frita</span>
+          </div>
+          <div class="item-details">
+            Porção tradicional crocante
+            <div class="badge-container">
+              <span class="badge badge-new">+R$ 10 Cheddar & Bacon</span>
+            </div>
+          </div>
+          <div class="price-stack">
+            <div class="price-row">
+              <span class="price-label">Pequena</span>
+              <span class="price-value">R$ 20</span>
+            </div>
+            <div class="price-row">
+              <span class="price-label">Grande</span>
+              <span class="price-value">R$ 25</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ITEM: Tilápia -->
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Tilápia com Polenta</span>
+            <span class="price-single">R$ 50</span>
+          </div>
+          <span class="item-details">Filé de tilápia com polenta</span>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Queijo Frito</span>
+            <span class="price-single">R$ 20</span>
+          </div>
+          <span class="item-details">Porção de 300g</span>
+        </div>
+
+        <!-- ITEM: Tábua (Antigo Picadão) -->
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Tábua</span>
+            <span class="badge badge-new">ESPECIAL</span>
+          </div>
+          <span class="item-details"
+            >Polenta, aipim, queijo, batata, anel de cebola, ovo de codorna,
+            pepino, carne de gado, frango, calabresa, maionese</span
+          >
+          <div class="price-stack">
+            <div class="price-row">
+              <span class="price-label">Tábua M</span>
+              <span class="price-value">R$ 80</span>
+            </div>
+            <div class="price-row">
+              <span class="price-label">Tábua G</span>
+              <span class="price-value">R$ 100</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= PRATOS PRINCIPAIS ================= -->
+      <div class="menu-section" data-category="pratos">
+        <h2>Pratos Principais</h2>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Bife à Parmegiana</span>
+            <p>Acompanha arroz, fritas e saladas. Serve 2 pessoas.</p>
+            <span class="price-single">R$ 60</span>
+          </div>
+          <div class="badge-container">
+            <span class="badge badge-info">SERVE 2 PESSOAS</span>
+          </div>
+          <span class="item-details"
+            >Delicioso bife à parmegiana com acompanhamentos.</span
+          >
+        </div>
+
+         <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Parmegiana de Filé Mignon</span>
+            <p>Acompanha arroz, fritas e saladas. Serve 2 pessoas.</p>
+            <span class="price-single">R$ 85,00</span>
+          </div>
+          <div class="badge-container">
+             <span class="badge badge-info">SERVE 2 PESSOAS</span>
+          </div>
+          <span class="item-details"
+            >Deliciosa parmegiana de filé mignon com acompanhamentos.</span
+          >
+        </div>
+      </div>
+
+      <!-- ================= LANCHES ================= -->
+      <div class="menu-section" data-category="lanches">
+        <h2>Lanches</h2>
+
+        <!-- ITEM NOVO: Xis Entrevero -->
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Xis Entrevero</span>
+          </div>
+          <div class="badge-container">
+            <span class="badge badge-new">NOVIDADE</span>
+          </div>
+          <span class="item-details"
+            >Pão, presunto, queijo, ovo, carne de gado, carne de frango,
+            calabresa, milho, ervilha, maionese, ketchup, alface, tomate</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">X Salada</span>
+            <span class="price-single">R$ 25</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto,
+            queijo, hambúrguer</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">X Acebolado</span>
+            <span class="price-single">R$ 27</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto,
+            queijo, hambúrguer e cebola na chapa</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Xis Frango</span>
+            <span class="price-single">R$ 25</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto,
+            queijo, frango desfiado</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Xis Bacon</span>
+            <span class="price-single">R$ 28</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto,
+            queijo, bacon</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Xis Calabresa</span>
+            <span class="price-single">R$ 28</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto,
+            queijo, calabresa</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Xis Coração</span>
+            <span class="price-single">R$ 31</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto,
+            queijo, coração</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">X Tudo</span>
+            <span class="price-single">R$ 33</span>
+          </div>
+          <div class="badge-container">
+            <span class="badge badge-new">COMPLETO</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, salada, milho, ervilha, tomate, ovo, presunto,
+            queijo, bacon, calabresa e frango desfiado</span
+          >
+        </div>
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">X Turbo</span>
+            <span class="price-single">R$ 35</span>
+          </div>
+          <div class="badge-container">
+            <span class="badge badge-new">TOP</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, salada, milho em dobro, ervilha em dobro, tomate em
+            dobro, ovo, 2 presuntos, queijo, hambúrguer</span
+          >
+        </div>
+      </div>
+
+      <!-- ================= PASTÉIS ================= -->
+      <div class="menu-section" data-category="pasteis">
+        <h2>Pastéis</h2>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Pastel Médio</span>
+            <span class="price-single">R$ 15</span>
+          </div>
+          <span class="item-details">Diversos sabores disponíveis</span>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Pastel Grande</span>
+            <span class="price-single">R$ 22</span>
+          </div>
+          <span class="item-details">Diversos sabores disponíveis</span>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Sabores Doces</span>
+          </div>
+          <span class="item-details"
+            >Branco, Preto, Misto, Prestígio, Sensação</span
+          >
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Sabores Salgados</span>
+          </div>
+          <span class="item-details"
+            >Frango, Calabresa, Bacon, Misto Salgado (frango e bacon)</span
+          >
+        </div>
+      </div>
+
+      <!-- ================= BEBIDAS ================= -->
+      <div class="menu-section" data-category="bebidas">
+        <h2>Bebidas</h2>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Chopp</span>
+            <span class="price-single" style="font-size: 1rem">Consultar</span>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Refrigerantes</span>
+          </div>
+          <div class="price-grid">
+            <div class="price-chip">
+              <span class="chip-lbl">Lata</span>
+              <span class="chip-val">R$ 6</span>
+            </div>
+            <div class="price-chip">
+              <span class="chip-lbl">600ml</span>
+              <span class="chip-val">R$ 8</span>
+            </div>
+            <div class="price-chip">
+              <span class="chip-lbl">1 Litro</span>
+              <span class="chip-val">R$ 10</span>
+            </div>
+            <div class="price-chip">
+              <span class="chip-lbl">2 Litros</span>
+              <span class="chip-val">R$ 18</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Suco Natural</span>
+            <span class="price-single">R$ 8</span>
+          </div>
+          <span class="item-details">Diversos sabores frescos</span>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Cerveja Lata</span>
+            <span class="price-single">R$ 10</span>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Cerveja Long Neck</span>
+            <span class="price-single">R$ 13</span>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Cerveja Garrafa</span>
+            <span class="price-single">R$ 13 - 15</span>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Caipirinha</span>
+            <span class="price-single">R$ 18</span>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Água (500ml)</span>
+            <span class="price-single">R$ 5</span>
+          </div>
+        </div>
+
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Energéticos</span>
+          </div>
+          <div class="price-stack">
+            <div class="price-row">
+              <span class="price-label">Latão</span>
+              <span class="price-value">R$ 15</span>
+            </div>
+            <div class="price-row">
+              <span class="price-label">600ml</span>
+              <span class="price-value">R$ 13</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-section">
+      <h2>Faça seu Pedido</h2>
+      <div class="qr-code">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=OlaPontoCerto"
+          alt="QR Code WhatsApp"
+        />
+      </div>
+      <p
+        style="
+          color: var(--cinza-texto);
+          margin-bottom: 15px;
+          font-size: 0.9rem;
+        "
+      >
+        Escaneie ou clique no botão abaixo para pedir
+      </p>
+      <a
+        href="https://wa.me/+5554999865980"
+        class="whatsapp-btn"
+        target="_blank"
+      >
+        <i class="fab fa-whatsapp"></i> Pedir no WhatsApp
+      </a>
+    </div>
+
+    <footer class="footer">
+      <p>&copy; 2024 Ponto Certo - Restaurante e Lancheria</p>
+      <p style="font-size: 0.7rem; margin-top: 5px">Paraí - RS</p>
+    </footer>
+
+    <script>
+      function filterMenu(category) {
+        const sections = document.querySelectorAll(".menu-section");
+        const buttons = document.querySelectorAll(".tab-btn");
+
+        // Feedback visual: rolar suavemente para o topo da lista
+        if (window.scrollY > 300) {
+          window.scrollTo({ top: 350, behavior: "smooth" });
+        }
+
+        sections.forEach((section) => {
+          if (
+            category === "all" ||
+            section.getAttribute("data-category") === category
+          ) {
+            section.style.display = "block";
+            section.style.animation = "none";
+            section.offsetHeight; /* trigger reflow */
+            section.style.animation = "fadeIn 0.3s ease-out";
+          } else {
+            section.style.display = "none";
+          }
+        });
+
+        buttons.forEach((btn) => {
+          btn.classList.remove("active");
+          if (btn.getAttribute("onclick").includes(`'${category}'`)) {
+            btn.classList.add("active");
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
