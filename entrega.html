@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Área de Entrega - Ponto Certo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <!-- Leaflet (mapa interativo, sem necessidade de chave de API) -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      :root {
+        --laranja-principal: #ff7043;
+        --verde-principal: #66bb6a;
+        --preto-fundo: #121212;
+        --preto-secundario: #1e1e1e;
+        --branco-texto: #ffffff;
+        --cinza-texto: #b0b0b0;
+        --verde-escuro: #388e3c;
+        --item-border: rgba(255, 112, 67, 0.2);
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+        background: var(--preto-fundo);
+        color: var(--branco-texto);
+        min-height: 100vh;
+        line-height: 1.5;
+        padding-bottom: 60px;
+      }
+
+      .header {
+        text-align: center;
+        padding: 26px 15px 18px;
+        background: linear-gradient(
+          180deg,
+          rgba(30, 30, 30, 1) 0%,
+          rgba(18, 18, 18, 1) 100%
+        );
+        border-bottom: 2px solid var(--laranja-principal);
+      }
+
+      h1 {
+        font-size: clamp(1.6rem, 7vw, 2.4rem);
+        color: var(--laranja-principal);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+        font-weight: 800;
+        line-height: 1.1;
+      }
+
+      .subtitle {
+        font-size: 0.8rem;
+        color: var(--verde-principal);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-top: 4px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin: 14px 0 0;
+        color: var(--cinza-texto);
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+      .back-link:active {
+        color: var(--laranja-principal);
+      }
+
+      .address-card {
+        max-width: 720px;
+        margin: 18px auto 0;
+        padding: 0 15px;
+      }
+      .address-inner {
+        background: var(--preto-secundario);
+        border: 1px solid var(--item-border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        font-size: 0.9rem;
+        color: var(--cinza-texto);
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      .address-inner i {
+        color: var(--laranja-principal);
+        margin-top: 3px;
+      }
+      .address-inner strong {
+        color: var(--branco-texto);
+      }
+
+      /* MAPA */
+      #map {
+        max-width: 720px;
+        height: 420px;
+        margin: 18px auto 0;
+        border-radius: 14px;
+        border: 2px solid var(--verde-principal);
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5);
+      }
+      @media (max-width: 760px) {
+        #map {
+          margin: 18px 15px 0;
+          width: auto;
+          height: 360px;
+        }
+      }
+
+      .legend {
+        max-width: 720px;
+        margin: 12px auto 0;
+        padding: 0 15px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        font-size: 0.8rem;
+        color: var(--cinza-texto);
+      }
+      .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        display: inline-block;
+        border: 2px solid #fff;
+      }
+      .dot-green {
+        background: var(--verde-principal);
+      }
+      .dot-orange {
+        background: var(--laranja-principal);
+      }
+
+      /* TABELA DE PREÇOS */
+      .prices {
+        max-width: 720px;
+        margin: 26px auto 0;
+        padding: 0 15px;
+      }
+      h2 {
+        color: var(--laranja-principal);
+        font-size: 1.3rem;
+        margin-bottom: 14px;
+        padding-left: 10px;
+        border-left: 4px solid var(--verde-principal);
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+      .price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: var(--preto-secundario);
+        border: 1px solid var(--item-border);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 8px;
+      }
+      .price-row .name {
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .price-row .name small {
+        color: var(--cinza-texto);
+        font-weight: 500;
+        font-size: 0.75rem;
+      }
+      .price-row .val {
+        color: var(--laranja-principal);
+        font-weight: 800;
+        font-size: 1.1rem;
+        white-space: nowrap;
+        background: rgba(255, 112, 67, 0.1);
+        padding: 4px 10px;
+        border-radius: 6px;
+      }
+
+      .note {
+        max-width: 720px;
+        margin: 16px auto 0;
+        padding: 0 15px;
+        font-size: 0.78rem;
+        color: var(--cinza-texto);
+        line-height: 1.6;
+      }
+
+      .footer {
+        text-align: center;
+        padding: 30px 15px 0;
+        color: var(--cinza-texto);
+        font-size: 0.8rem;
+      }
+
+      /* Popup do Leaflet em tema escuro */
+      .leaflet-popup-content-wrapper,
+      .leaflet-popup-tip {
+        background: var(--preto-secundario);
+        color: var(--branco-texto);
+        border: 1px solid var(--item-border);
+      }
+      .leaflet-popup-content {
+        margin: 12px 14px;
+        font-size: 0.9rem;
+      }
+      .leaflet-popup-content b {
+        color: var(--laranja-principal);
+      }
+      .popup-price {
+        color: var(--verde-principal);
+        font-weight: 800;
+      }
+      .popup-link {
+        display: inline-block;
+        margin-top: 8px;
+        color: var(--verde-principal);
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 0.82rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h1>Área de Entrega</h1>
+      <div class="subtitle">Ponto Certo · Tele-entrega</div>
+      <br />
+      <a href="index.html" class="back-link"
+        ><i class="fas fa-arrow-left"></i> Voltar ao cardápio</a
+      >
+    </div>
+
+    <div class="address-card">
+      <div class="address-inner">
+        <i class="fas fa-store"></i>
+        <div>
+          <strong>Ponto Certo - Restaurante e Lancheria</strong><br />
+          R. Reinaldo Cherubini, 29 - Centro, Paraí - RS, 95360-000
+        </div>
+      </div>
+    </div>
+
+    <div id="map"></div>
+
+    <div class="legend">
+      <span><span class="dot dot-green"></span> Endereço confirmado</span>
+      <span><span class="dot dot-orange"></span> Posição aproximada</span>
+    </div>
+
+    <div class="prices">
+      <h2>Valores da Tele</h2>
+      <div id="priceList"></div>
+    </div>
+
+    <p class="note">
+      <i class="fas fa-info-circle"></i> O restaurante (Centro), Nova Araçá e
+      Casca têm coordenadas confirmadas. Os bairros e linhas de Paraí (São José,
+      Navegantes, Goreti, São Lucas, Santa Gema e Palmeirinha) aparecem em
+      posição aproximada — confirme o valor exato da tele pelo WhatsApp ao fazer
+      o pedido.
+    </p>
+
+    <footer class="footer">
+      <p>&copy; 2024 Ponto Certo · Paraí - RS</p>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+      // Cada local: nome, preço da tele (R$), coordenadas, e se é confirmado.
+      // confirmado=true  -> coordenada real (verde)
+      // confirmado=false -> posição aproximada ao redor de Paraí (laranja)
+      const locais = [
+        { nome: "Restaurante (Centro)", preco: 2, lat: -28.5964, lon: -51.7896, conf: true, sede: true },
+        { nome: "São José", preco: 2, lat: -28.5928, lon: -51.7858, conf: false },
+        { nome: "Palmeirinha", preco: 3, lat: -28.6105, lon: -51.8085, conf: false },
+        { nome: "São Lucas (Setor 1)", preco: 3, lat: -28.5762, lon: -51.7752, conf: false },
+        { nome: "São Lucas (Setor 2)", preco: 4, lat: -28.5658, lon: -51.7651, conf: false },
+        { nome: "Goreti", preco: 4, lat: -28.6048, lon: -51.7952, conf: false },
+        { nome: "Navegantes", preco: 4, lat: -28.5901, lon: -51.8008, conf: false },
+        { nome: "Santa Gema", preco: 10, lat: -28.5552, lon: -51.7405, conf: false },
+        { nome: "Nova Araçá", preco: 15, lat: -28.6537, lon: -51.7458, conf: true },
+        { nome: "Casca", preco: 30, lat: -28.5605, lon: -51.9815, conf: true },
+      ];
+
+      const map = L.map("map").setView([-28.5964, -51.7896], 12);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: "© OpenStreetMap",
+      }).addTo(map);
+
+      function pin(cor) {
+        return L.divIcon({
+          className: "",
+          html:
+            '<div style="background:' +
+            cor +
+            ';width:18px;height:18px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.6)"></div>',
+          iconSize: [18, 18],
+          iconAnchor: [9, 18],
+          popupAnchor: [0, -18],
+        });
+      }
+
+      const bounds = [];
+      locais.forEach((l) => {
+        const cor = l.sede
+          ? "#388e3c"
+          : l.conf
+            ? "#66bb6a"
+            : "#ff7043";
+        const gmaps =
+          "https://www.google.com/maps/search/?api=1&query=" +
+          l.lat +
+          "," +
+          l.lon;
+        const aprox = l.conf ? "" : " <small>(aprox.)</small>";
+        L.marker([l.lat, l.lon], { icon: pin(cor) })
+          .addTo(map)
+          .bindPopup(
+            "<b>" +
+              l.nome +
+              "</b>" +
+              aprox +
+              "<br>Tele: <span class='popup-price'>R$ " +
+              l.preco +
+              "</span><br><a class='popup-link' href='" +
+              gmaps +
+              "' target='_blank'><i class='fas fa-location-arrow'></i> Abrir no Google Maps</a>"
+          );
+        bounds.push([l.lat, l.lon]);
+      });
+      map.fitBounds(bounds, { padding: [40, 40] });
+
+      // Tabela de preços, ordenada do mais barato ao mais caro
+      const lista = document.getElementById("priceList");
+      [...locais]
+        .sort((a, b) => a.preco - b.preco)
+        .forEach((l) => {
+          const aprox = l.conf ? "" : "<small>posição aproximada</small>";
+          lista.insertAdjacentHTML(
+            "beforeend",
+            "<div class='price-row'><span class='name'>" +
+              l.nome +
+              " " +
+              aprox +
+              "</span><span class='val'>R$ " +
+              l.preco +
+              "</span></div>"
+          );
+        });
+    </script>
+  </body>
+</html>

@@ -122,12 +122,45 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
       }
 
+      .hero-img picture {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
       .hero-img img {
         width: 100%;
         height: 100%;
         object-fit: cover;
         /* Protege a imagem de ser arrastada no desktop/mobile */
         pointer-events: none;
+      }
+
+      /* Legenda sobre a imagem: identifica o prato de forma elegante */
+      .hero-caption {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 18px 12px 10px;
+        font-size: 0.95rem;
+        font-weight: 800;
+        letter-spacing: 0.5px;
+        color: var(--branco-texto);
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+        background: linear-gradient(
+          180deg,
+          rgba(0, 0, 0, 0) 0%,
+          rgba(0, 0, 0, 0.75) 100%
+        );
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .hero-caption .fa-utensils {
+        color: var(--laranja-principal);
+        font-size: 0.85rem;
       }
 
       /* --- NAVEGAÇÃO STICKY (GRUDA NO TOPO) --- */
@@ -411,6 +444,35 @@
         margin-top: 20px;
       }
 
+      /* --- MICROINTERAÇÕES SUTIS (feedback de toque) --- */
+      .tab-btn {
+        cursor: pointer;
+      }
+      .tab-btn:active {
+        transform: scale(0.96);
+      }
+      .menu-item {
+        transition:
+          transform 0.15s ease,
+          border-color 0.15s ease;
+      }
+      .menu-item:active {
+        transform: scale(0.99);
+      }
+      /* Realce de acessibilidade ao navegar por teclado */
+      .tab-btn:focus-visible,
+      .whatsapp-btn:focus-visible {
+        outline: 2px solid var(--verde-claro);
+        outline-offset: 2px;
+      }
+      /* Respeita usuários que preferem menos animação */
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+
       @keyframes fadeIn {
         from {
           opacity: 0;
@@ -459,13 +521,64 @@
     <!-- IMAGENS: REFERÊNCIAS ORIGINAIS MANTIDAS (NÃO ALTERAR) -->
     <div class="hero-images">
       <div class="hero-img">
-        <img src="img/Italiana.jpg" alt="Porção" />
+        <picture>
+          <source srcset="img/entrevero.webp" type="image/webp" />
+          <img
+            src="img/entrevero.jpg"
+            alt="Xis Entrevero"
+            width="700"
+            height="400"
+            loading="eager"
+          />
+        </picture>
+        <div class="hero-caption">
+          <i class="fas fa-utensils"></i> Xis Entrevero
+        </div>
       </div>
       <div class="hero-img">
-        <img src="img/Xis.png" alt="Lanche" />
+        <picture>
+          <source srcset="img/hamburguer.webp" type="image/webp" />
+          <img
+            src="img/hamburguer.jpg"
+            alt="Hambúrguer da casa"
+            width="700"
+            height="400"
+            loading="lazy"
+          />
+        </picture>
+        <div class="hero-caption">
+          <i class="fas fa-utensils"></i> Hambúrguer
+        </div>
       </div>
       <div class="hero-img">
-        <img src="img/Caipirinha.png" alt="Bebida" />
+        <picture>
+          <source srcset="img/imigrante.webp" type="image/webp" />
+          <img
+            src="img/imigrante.jpg"
+            alt="Prato Imigrante"
+            width="700"
+            height="400"
+            loading="lazy"
+          />
+        </picture>
+        <div class="hero-caption">
+          <i class="fas fa-utensils"></i> Xis do Imigrante
+        </div>
+      </div>
+      <div class="hero-img">
+        <picture>
+          <source srcset="img/parmegiana.webp" type="image/webp" />
+          <img
+            src="img/parmegiana.jpg"
+            alt="Parmegiana"
+            width="700"
+            height="400"
+            loading="lazy"
+          />
+        </picture>
+        <div class="hero-caption">
+          <i class="fas fa-utensils"></i> Parmegiana
+        </div>
       </div>
     </div>
 
@@ -488,29 +601,6 @@
       <!-- ================= ENTRADAS & PORÇÕES ================= -->
       <div class="menu-section" data-category="entradas">
         <h2>Entradas & Porções</h2>
-
-        <!-- ITEM: Porção Especial (Nome Atualizado) -->
-        <div
-          class="menu-item"
-          style="
-            border-color: var(--laranja-principal);
-            background: rgba(255, 112, 67, 0.05);
-          "
-        >
-          <div class="item-header">
-            <span class="item-name">Porção Especial Tamanho M</span>
-            <span class="price-single">R$ 100</span>
-          </div>
-          <div class="badge-container">
-            <span class="badge badge-new">NOVIDADE</span>
-            <span class="badge badge-info">SERVE 3 PESSOAS</span>
-          </div>
-          <span class="item-details"
-            >Serve 3 pessoas. Polenta de chapa coberta de queijo mussarela,
-            coração, dadinhos de tapioca, filé de tilápia, chocolate especial,
-            maionese caseira.</span
-          >
-        </div>
 
         <div class="menu-item">
           <div class="item-header">
@@ -581,28 +671,26 @@
         <div class="menu-item">
           <div class="item-header">
             <span class="item-name">Bife à Parmegiana</span>
-            <p>Acompanha arroz, fritas e saladas. Serve 2 pessoas.</p>
             <span class="price-single">R$ 60</span>
           </div>
           <div class="badge-container">
             <span class="badge badge-info">SERVE 2 PESSOAS</span>
           </div>
           <span class="item-details"
-            >Delicioso bife à parmegiana com acompanhamentos.</span
+            >Acompanha arroz, fritas e saladas. Serve 2 pessoas.</span
           >
         </div>
 
          <div class="menu-item">
           <div class="item-header">
             <span class="item-name">Parmegiana de Filé Mignon</span>
-            <p>Acompanha arroz, fritas e saladas. Serve 2 pessoas.</p>
-            <span class="price-single">R$ 85,00</span>
+            <span class="price-single">R$ 85</span>
           </div>
           <div class="badge-container">
-             <span class="badge badge-info">SERVE 2 PESSOAS</span>
+            <span class="badge badge-info">SERVE 2 PESSOAS</span>
           </div>
           <span class="item-details"
-            >Deliciosa parmegiana de filé mignon com acompanhamentos.</span
+            >Acompanha arroz, fritas e saladas. Serve 2 pessoas.</span
           >
         </div>
       </div>
@@ -615,6 +703,7 @@
         <div class="menu-item">
           <div class="item-header">
             <span class="item-name">Xis Entrevero</span>
+            <span class="price-single">R$ 40</span>
           </div>
           <div class="badge-container">
             <span class="badge badge-new">NOVIDADE</span>
@@ -622,6 +711,37 @@
           <span class="item-details"
             >Pão, presunto, queijo, ovo, carne de gado, carne de frango,
             calabresa, milho, ervilha, maionese, ketchup, alface, tomate</span
+          >
+        </div>
+
+        <!-- ITEM NOVO: Hambúrguer -->
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Hambúrguer</span>
+            <span class="price-single">R$ 30</span>
+          </div>
+          <div class="badge-container">
+            <span class="badge badge-new">NOVIDADE</span>
+            <span class="badge badge-info">ACOMPANHA FRITAS</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, barbecue, ketchup, hambúrguer 140g, queijo cheddar,
+            queijo mussarela, alface, tomate e pepino. Acompanha fritas.</span
+          >
+        </div>
+
+        <!-- ITEM NOVO: Xis do Imigrante -->
+        <div class="menu-item">
+          <div class="item-header">
+            <span class="item-name">Xis do Imigrante</span>
+            <span class="price-single">R$ 38</span>
+          </div>
+          <div class="badge-container">
+            <span class="badge badge-new">NOVIDADE</span>
+          </div>
+          <span class="item-details"
+            >Pão, maionese, tomate, alface, milho, ervilha, ovo, presunto,
+            queijo mussarela, hambúrguer à milanesa e molho vermelho</span
           >
         </div>
 
@@ -877,6 +997,18 @@
         target="_blank"
       >
         <i class="fab fa-whatsapp"></i> Pedir no WhatsApp
+      </a>
+      <a
+        href="entrega.html"
+        class="whatsapp-btn"
+        style="
+          background: var(--laranja-principal);
+          color: var(--preto-fundo);
+          box-shadow: 0 4px 15px rgba(255, 112, 67, 0.4);
+          font-size: 1.05rem;
+        "
+      >
+        <i class="fas fa-map-marked-alt"></i> Área de Entrega e Valores
       </a>
     </div>
 
