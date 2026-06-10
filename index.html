@@ -22,6 +22,10 @@
         -webkit-tap-highlight-color: transparent;
       }
 
+      html {
+        scroll-behavior: smooth;
+      }
+
       :root {
         --laranja-principal: #ff7043;
         --verde-principal: #66bb6a;
@@ -1009,7 +1013,7 @@
         <i class="fab fa-whatsapp"></i> Pedir no WhatsApp
       </a>
       <a
-        href="entrega.html"
+        href="#entrega"
         class="whatsapp-btn"
         style="
           background: var(--laranja-principal);
@@ -1018,9 +1022,92 @@
           font-size: 1.05rem;
         "
       >
-        <i class="fas fa-map-marked-alt"></i> Área de Entrega e Valores
+        <i class="fas fa-motorcycle"></i> Área de Entrega e Valores
       </a>
     </div>
+
+    <!-- ================= TELE-ENTREGA ================= -->
+    <section class="contact-section" id="entrega">
+      <h2>Tele-entrega</h2>
+      <p
+        style="
+          color: var(--cinza-texto);
+          margin: 6px 0 16px;
+          font-size: 0.9rem;
+        "
+      >
+        <i class="fas fa-store" style="color: var(--laranja-principal)"></i>
+        R. Reinaldo Cherubini, 29 - Centro, Paraí - RS
+      </p>
+
+      <a
+        href="https://wa.me/5554999865980?text=Ol%C3%A1%2C%20gostaria%20de%20fazer%20um%20pedido.%20Endere%C3%A7o%3A%20"
+        class="whatsapp-btn"
+        target="_blank"
+        rel="noopener"
+        style="margin-top: 0"
+      >
+        <i class="fab fa-whatsapp"></i> Enviar pedido e localização
+      </a>
+      <p
+        style="
+          margin-top: 12px;
+          font-size: 0.8rem;
+          color: var(--cinza-texto);
+          line-height: 1.6;
+        "
+      >
+        <i class="fas fa-location-dot" style="color: var(--verde-principal)"></i>
+        No WhatsApp, toque no clipe (📎) → <strong>Localização</strong> →
+        <strong>Localização atual</strong> para enviar seu ponto exato.
+      </p>
+
+      <div
+        class="price-stack"
+        style="margin-top: 22px; text-align: left; max-width: 420px; margin-inline: auto"
+      >
+        <div class="price-row">
+          <span class="price-label">Centro</span>
+          <span class="price-value">R$ 2</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">São José</span>
+          <span class="price-value">R$ 2</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Palmeirinha</span>
+          <span class="price-value">R$ 3</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">São Lucas (Setor 1)</span>
+          <span class="price-value">R$ 3</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">São Lucas (Setor 2)</span>
+          <span class="price-value">R$ 4</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Goreti</span>
+          <span class="price-value">R$ 4</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Navegantes</span>
+          <span class="price-value">R$ 4</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Santa Gema</span>
+          <span class="price-value">R$ 10</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Nova Araçá</span>
+          <span class="price-value">R$ 15</span>
+        </div>
+        <div class="price-row">
+          <span class="price-label">Casca</span>
+          <span class="price-value">R$ 30</span>
+        </div>
+      </div>
+    </section>
 
     <footer class="footer">
       <p>&copy; 2024 Ponto Certo - Restaurante e Lancheria</p>
