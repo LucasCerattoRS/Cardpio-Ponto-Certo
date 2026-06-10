@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ponto Certo — Cardápio Impresso · Fundo Branco (15×21cm)</title>
+    <style>
+      /* ============================================================
+         CARDÁPIO FÍSICO — PONTO CERTO
+         Formato exato: 15 x 21 cm (RETRATO) = 150mm x 210mm
+         Arquivo SEPARADO do digital (index.html).
+
+         ENCADERNAÇÃO: 3 furos na lateral ESQUERDA p/ fixar em MDF fino.
+           - Diâmetro: 2 mm
+           - Centro a 15 mm da borda esquerda
+           - Vertical (do fundo até o centro do furo):
+               furo 1 = 22 mm | furo 2 = 102 mm | furo 3 = 182 mm
+           (todos ajustáveis pelas variáveis --furo* abaixo)
+         ============================================================ */
+
+      :root {
+        --laranja: #e85d2a;       /* acento (contraste em branco) */
+        --laranja-claro: #b45309;
+        --verde: #2f8f3e;
+        --verde-claro: #2f7d3a;
+        --tinta: #1d1a17;         /* texto principal escuro */
+        --tinta-suave: #6b645c;   /* texto secundário */
+        --fundo-a: #ffffff;
+        --fundo-b: #fbf7f2;       /* leve calor */
+        --linha: rgba(0, 0, 0, 0.14);
+        --leader: rgba(0, 0, 0, 0.28);
+
+        /* Margens da página */
+        --m-topo: 11mm;
+        --m-dir: 11mm;
+        --m-base: 11mm;
+        --m-esq: 24mm;          /* faixa de encadernação (furos) */
+
+        /* Furos (centro a partir das bordas) */
+        --furo-diam: 2mm;
+        --furo-cx: 15mm;        /* horizontal: do esquerdo */
+        --furo1: 22mm;          /* vertical: do fundo */
+        --furo2: 102mm;
+        --furo3: 175mm;         /* = 35 mm do topo */
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background: #4a4a4a;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--tinta);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ====== PÁGINA 150 x 210 mm ====== */
+      .page {
+        position: relative;
+        width: 150mm;
+        height: 210mm;
+        background: linear-gradient(160deg, var(--fundo-b), var(--fundo-a));
+        overflow: hidden;
+        page-break-after: always;
+        break-after: page;
+        padding: var(--m-topo) var(--m-dir) var(--m-base) var(--m-esq);
+        display: flex;
+        flex-direction: column;
+      }
+      .page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      /* Moldura fina — começa após a faixa de furos */
+      .page::after {
+        content: "";
+        position: absolute;
+        top: 6mm;
+        right: 6mm;
+        bottom: 6mm;
+        left: calc(var(--m-esq) - 6mm);
+        border: 0.4mm solid var(--linha);
+        border-radius: 2.5mm;
+        pointer-events: none;
+      }
+
+      /* ====== GUIAS DOS 3 FUROS (apenas na tela) ====== */
+      .furos {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 3;
+      }
+      .furos::before {
+        content: "";
+        position: absolute;
+        top: 6mm;
+        bottom: 6mm;
+        left: var(--m-esq);
+        border-left: 0.3mm dashed rgba(0, 0, 0, 0.22);
+      }
+      .furo {
+        position: absolute;
+        width: var(--furo-diam);
+        height: var(--furo-diam);
+        border: 0.4mm solid var(--laranja);
+        border-radius: 50%;
+        left: calc(var(--furo-cx) - var(--furo-diam) / 2);
+        background: rgba(255, 122, 69, 0.25);
+      }
+      .furo::after {
+        /* mira de centro */
+        content: "";
+        position: absolute;
+        inset: -1.4mm;
+        background:
+          linear-gradient(var(--laranja), var(--laranja)) center / 0.25mm 100% no-repeat,
+          linear-gradient(var(--laranja), var(--laranja)) center / 100% 0.25mm no-repeat;
+        opacity: 0.6;
+      }
+      .furo-1 { bottom: calc(var(--furo1) - var(--furo-diam) / 2); }
+      .furo-2 { bottom: calc(var(--furo2) - var(--furo-diam) / 2); }
+      .furo-3 { bottom: calc(var(--furo3) - var(--furo-diam) / 2); }
+
+      /* ====== CONTEÚDO (equilíbrio vertical) ====== */
+      .content {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8mm;
+      }
+
+      /* ====== TÍTULO DE SEÇÃO (centralizado) ====== */
+      .sec {
+        text-align: center;
+        margin-bottom: 4mm;
+      }
+      .sec h2 {
+        color: var(--laranja);
+        font-size: 14.5pt;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+      .sec .rule {
+        width: 26mm;
+        height: 0.5mm;
+        background: var(--verde);
+        margin: 2mm auto 0;
+        opacity: 0.8;
+      }
+      .sec .hint {
+        display: block;
+        margin-top: 2mm;
+        font-size: 7.5pt;
+        color: var(--tinta-suave);
+        letter-spacing: 0.3px;
+        font-style: italic;
+      }
+
+      /* ====== LISTA DE ITENS ====== */
+      .list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 9mm;
+        row-gap: 3mm;
+        align-content: start;
+      }
+      .list.one {
+        grid-template-columns: 1fr;
+        max-width: 95mm;
+        margin: 0 auto;
+      }
+
+      .item {
+        break-inside: avoid;
+      }
+      .row {
+        display: flex;
+        align-items: baseline;
+        gap: 1.5mm;
+      }
+      .nm {
+        font-size: 10.5pt;
+        font-weight: 700;
+        color: var(--tinta);
+        white-space: nowrap;
+      }
+      .dots {
+        flex: 1;
+        border-bottom: 0.3mm dotted var(--leader);
+        transform: translateY(-1mm);
+        min-width: 4mm;
+      }
+      .pr {
+        font-size: 10.5pt;
+        font-weight: 800;
+        color: var(--laranja);
+        white-space: nowrap;
+      }
+      .ds {
+        font-size: 7.5pt;
+        color: var(--tinta-suave);
+        line-height: 1.35;
+        margin-top: 0.6mm;
+        max-width: 95%;
+      }
+      /* preços múltiplos (P/G, sabores etc.) */
+      .multi {
+        margin-top: 0.8mm;
+        font-size: 8.5pt;
+        color: var(--verde-claro);
+        font-weight: 600;
+      }
+      .multi b {
+        color: var(--laranja);
+        font-weight: 800;
+      }
+      .multi .dot {
+        color: var(--tinta-suave);
+        margin: 0 1.5mm;
+        font-weight: 400;
+      }
+      .flag {
+        display: inline-block;
+        font-size: 6.5pt;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        padding: 0.4mm 1.4mm;
+        border-radius: 1mm;
+        margin-left: 1.5mm;
+        vertical-align: 1px;
+      }
+      .flag.novo { background: var(--laranja); color: #1a1410; }
+      .flag.info { background: var(--verde); color: #10180f; }
+
+      .foot {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        font-size: 6.5pt;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: rgba(0, 0, 0, 0.35);
+        margin-top: 4mm;
+      }
+
+      /* ====== CAPA ====== */
+      .capa {
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        background:
+          radial-gradient(circle at 50% 40%, rgba(255, 122, 69, 0.14), transparent 62%),
+          linear-gradient(160deg, var(--fundo-b), var(--fundo-a));
+      }
+      .capa .mark {
+        position: relative;
+        z-index: 1;
+      }
+      .capa .crest {
+        font-size: 8pt;
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        color: var(--verde);
+        margin-bottom: 6mm;
+      }
+      .capa h1 {
+        font-size: 42pt;
+        font-weight: 800;
+        color: var(--laranja);
+        letter-spacing: 3px;
+        line-height: 1.02;
+        text-shadow: 0 1mm 3mm rgba(0, 0, 0, 0.6);
+      }
+      .capa h1 span { display: block; }
+      .capa .sub {
+        font-size: 11pt;
+        color: var(--tinta);
+        text-transform: uppercase;
+        letter-spacing: 4px;
+        margin-top: 4mm;
+        font-weight: 600;
+      }
+      .capa .rule {
+        width: 56mm;
+        height: 0.6mm;
+        background: var(--verde);
+        margin: 7mm auto;
+        opacity: 0.75;
+      }
+      .capa .loc {
+        font-size: 10.5pt;
+        color: var(--tinta-suave);
+        letter-spacing: 3px;
+      }
+      .capa .word {
+        margin-top: 10mm;
+        font-size: 9pt;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        color: var(--laranja-claro);
+      }
+
+      /* ====== TELE-ENTREGA ====== */
+      .deliv {
+        display: flex;
+        flex-direction: column;
+        gap: 5mm;
+        max-width: 102mm;
+        margin: 0 auto;
+        width: 100%;
+      }
+      .addr {
+        text-align: center;
+        font-size: 9pt;
+        color: var(--tinta-suave);
+        line-height: 1.5;
+      }
+      .addr strong { color: var(--verde-claro); }
+      .wpp {
+        text-align: center;
+        font-size: 14pt;
+        font-weight: 800;
+        color: var(--verde);
+      }
+      .taxas {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 8mm;
+        row-gap: 1.4mm;
+        margin-top: 1mm;
+      }
+      .taxa {
+        display: flex;
+        align-items: baseline;
+        gap: 1.5mm;
+        font-size: 8.5pt;
+      }
+      .taxa .b { color: var(--tinta); white-space: nowrap; }
+      .taxa .d { flex: 1; border-bottom: 0.3mm dotted var(--leader); transform: translateY(-1mm); }
+      .taxa .v { color: var(--laranja); font-weight: 800; white-space: nowrap; }
+      .qr {
+        width: 32mm;
+        height: 32mm;
+        background: #fff;
+        padding: 1.6mm;
+        border: 0.4mm solid var(--linha);
+        border-radius: 1.5mm;
+        margin: 1mm auto 0;
+      }
+      .qr img { width: 100%; height: 100%; object-fit: contain; }
+      .qr-cap {
+        text-align: center;
+        font-size: 7pt;
+        color: var(--tinta-suave);
+        margin-top: 1.5mm;
+        letter-spacing: 0.5px;
+      }
+
+      /* ====== TELA: barra + palco ====== */
+      .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: #1c1c1c;
+        color: #eee;
+        padding: 10px 16px;
+        font-size: 13px;
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        flex-wrap: wrap;
+        border-bottom: 2px solid var(--laranja);
+      }
+      .toolbar b { color: var(--laranja); }
+      .toolbar button {
+        background: var(--laranja);
+        color: #1a1410;
+        border: 0;
+        padding: 7px 14px;
+        border-radius: 6px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        padding: 24px 0 60px;
+      }
+      .stage .page {
+        box-shadow: 0 10px 34px rgba(0, 0, 0, 0.55);
+      }
+
+      /* ====== IMPRESSÃO ====== */
+      @page {
+        size: 150mm 210mm;
+        margin: 0;
+      }
+      @media print {
+        html,
+        body { background: #fff; }
+        .toolbar { display: none !important; }
+        .furos { display: none !important; } /* furos são físicos */
+        .stage { display: block; padding: 0; gap: 0; }
+        .stage .page { box-shadow: none; margin: 0; }
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <b>15×21 cm · Fundo Branco</b>
+      <span>Margens: Nenhuma · Escala: 100%. Faixa esquerda = 3 furos Ø2mm p/ MDF.</span>
+      <button onclick="window.print()">Imprimir / Salvar PDF</button>
+      <a href="cardapio-impressao-tematico.html" style="color:#ffb59a">→ versão temática</a>
+    </div>
+
+    <div class="stage">
+      <!-- ===================== 1 — CAPA ===================== -->
+      <section class="page capa">
+        <div class="furos">
+          <i class="furo furo-1"></i><i class="furo furo-2"></i><i class="furo furo-3"></i>
+        </div>
+        <div class="mark">
+          <div class="crest">Desde sempre, no ponto</div>
+          <h1><span>PONTO</span><span>CERTO</span></h1>
+          <div class="sub">Restaurante &amp; Lancheria</div>
+          <div class="rule"></div>
+          <div class="loc">PARAÍ — RS</div>
+          <div class="word">Cardápio</div>
+        </div>
+      </section>
+
+      <!-- ============ 2 — ENTRADAS & PRATOS ============ -->
+      <section class="page">
+        <div class="furos">
+          <i class="furo furo-1"></i><i class="furo furo-2"></i><i class="furo furo-3"></i>
+        </div>
+        <div class="content">
+          <div>
+            <div class="sec"><h2>Entradas &amp; Porções</h2><div class="rule"></div></div>
+            <div class="list">
+              <div class="item">
+                <div class="row"><span class="nm">Batata Frita</span><span class="dots"></span></div>
+                <div class="multi">Pequena <b>R$ 20</b><span class="dot">·</span>Grande <b>R$ 25</b></div>
+                <div class="ds">Tradicional crocante. Adicione cheddar &amp; bacon +R$ 10.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Tilápia c/ Polenta</span><span class="dots"></span><span class="pr">R$ 50</span></div>
+                <div class="ds">Filé de tilápia com polenta.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Queijo Frito</span><span class="dots"></span><span class="pr">R$ 20</span></div>
+                <div class="ds">Porção de 300g.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Picadão <span class="flag novo">Especial</span></span><span class="dots"></span></div>
+                <div class="multi">Médio <b>R$ 90</b><span class="dot">·</span>Grande <b>R$ 110</b></div>
+                <div class="ds">Polenta, aipim, queijo, batata, anel de cebola, ovo de codorna, pepino, gado, frango, calabresa e maionese.</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec"><h2>Pratos Principais</h2><div class="rule"></div></div>
+            <div class="list">
+              <div class="item">
+                <div class="row"><span class="nm">Bife à Parmegiana</span><span class="dots"></span><span class="pr">R$ 60</span></div>
+                <div class="ds">Arroz, fritas e saladas. <span class="flag info">Serve 2</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Parmegiana Filé Mignon</span><span class="dots"></span><span class="pr">R$ 85</span></div>
+                <div class="ds">Arroz, fritas e saladas. <span class="flag info">Serve 2</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="foot">Ponto Certo · Paraí — RS</div>
+      </section>
+
+      <!-- ================== 3 — LANCHES ================== -->
+      <section class="page">
+        <div class="furos">
+          <i class="furo furo-1"></i><i class="furo furo-2"></i><i class="furo furo-3"></i>
+        </div>
+        <div class="content">
+          <div>
+            <div class="sec">
+              <h2>Lanches</h2><div class="rule"></div>
+              <span class="hint">Servidos no pão da casa</span>
+            </div>
+            <div class="list">
+              <div class="item">
+                <div class="row"><span class="nm">Hambúrguer <span class="flag novo">Novo</span></span><span class="dots"></span><span class="pr">R$ 30</span></div>
+                <div class="ds">Pão, maionese, barbecue, ketchup, burger 140g, cheddar, mussarela, alface, tomate e pepino. Acompanha fritas.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Entrevero <span class="flag novo">Novo</span></span><span class="dots"></span><span class="pr">R$ 35</span></div>
+                <div class="ds">Presunto, queijo, ovo, gado, frango, calabresa, milho, ervilha, maionese, ketchup, alface e tomate.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis do Imigrante <span class="flag novo">Novo</span></span><span class="dots"></span><span class="pr">R$ 40</span></div>
+                <div class="ds">Maionese, tomate, alface, milho, ervilha, ovo, presunto, mussarela, burger à milanesa 140g e molho vermelho.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Torrada</span><span class="dots"></span><span class="pr">R$ 15</span></div>
+                <div class="ds">Pão, presunto, queijo, ovo e maionese.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">X Salada</span><span class="dots"></span><span class="pr">R$ 25</span></div>
+                <div class="ds">Maionese, salada, milho, ervilha, tomate, ovo, presunto, queijo e hambúrguer.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">X Acebolado</span><span class="dots"></span><span class="pr">R$ 27</span></div>
+                <div class="ds">O X Salada + cebola na chapa.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Frango</span><span class="dots"></span><span class="pr">R$ 25</span></div>
+                <div class="ds">Salada completa, ovo, presunto, queijo e frango desfiado.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Bacon</span><span class="dots"></span><span class="pr">R$ 28</span></div>
+                <div class="ds">Salada completa, ovo, presunto, queijo e bacon.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Calabresa</span><span class="dots"></span><span class="pr">R$ 28</span></div>
+                <div class="ds">Salada completa, ovo, presunto, queijo e calabresa.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Coração</span><span class="dots"></span><span class="pr">R$ 31</span></div>
+                <div class="ds">Salada completa, ovo, presunto, queijo e coração.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">X Tudo <span class="flag info">Completo</span></span><span class="dots"></span><span class="pr">R$ 33</span></div>
+                <div class="ds">Tudo do xis + bacon, calabresa e frango desfiado.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">X Turbo <span class="flag info">Top</span></span><span class="dots"></span><span class="pr">R$ 35</span></div>
+                <div class="ds">Milho, ervilha e tomate em dobro, ovo, 2 presuntos, queijo e hambúrguer.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="foot">Ponto Certo · Paraí — RS</div>
+      </section>
+
+      <!-- ============ 4 — PASTÉIS & BEBIDAS ============ -->
+      <section class="page">
+        <div class="furos">
+          <i class="furo furo-1"></i><i class="furo furo-2"></i><i class="furo furo-3"></i>
+        </div>
+        <div class="content">
+          <div>
+            <div class="sec"><h2>Pastéis</h2><div class="rule"></div></div>
+            <div class="list">
+              <div class="item">
+                <div class="row"><span class="nm">Pastel Médio</span><span class="dots"></span><span class="pr">R$ 15</span></div>
+                <div class="ds">Diversos sabores.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Pastel Grande</span><span class="dots"></span><span class="pr">R$ 22</span></div>
+                <div class="ds">Diversos sabores.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Sabores Doces</span></div>
+                <div class="ds">Branco, Preto, Misto, Prestígio e Sensação.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Sabores Salgados</span></div>
+                <div class="ds">Frango, Calabresa, Bacon e Misto (frango e bacon).</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="sec"><h2>Bebidas</h2><div class="rule"></div></div>
+            <div class="list">
+              <div class="item">
+                <div class="row"><span class="nm">Chopp</span><span class="dots"></span><span class="pr">Consultar</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Suco Natural</span><span class="dots"></span><span class="pr">R$ 10</span></div>
+                <div class="ds">Diversos sabores frescos.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Refrigerantes</span></div>
+                <div class="multi">Lata <b>R$ 6</b><span class="dot">·</span>600ml <b>R$ 8</b><span class="dot">·</span>1L <b>R$ 12</b><span class="dot">·</span>2L <b>R$ 18</b></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Energéticos</span></div>
+                <div class="multi">Latão <b>R$ 15</b><span class="dot">·</span>2L <b>R$ 20</b></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Cerveja Lata</span><span class="dots"></span><span class="pr">R$ 10</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Cerveja Long Neck</span><span class="dots"></span><span class="pr">R$ 13</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Cerveja Garrafa</span><span class="dots"></span><span class="pr">R$ 15</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Caipirinha</span><span class="dots"></span><span class="pr">R$ 18</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Água (500ml)</span><span class="dots"></span><span class="pr">R$ 5</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="foot">Ponto Certo · Paraí — RS</div>
+      </section>
+
+      <!-- ============= 5 — TELE-ENTREGA ============= -->
+      <section class="page">
+        <div class="furos">
+          <i class="furo furo-1"></i><i class="furo furo-2"></i><i class="furo furo-3"></i>
+        </div>
+        <div class="content">
+          <div class="deliv">
+            <div class="sec"><h2>Tele-entrega</h2><div class="rule"></div></div>
+            <div class="addr">
+              <strong>R. Reinaldo Cherubini, 29</strong> — Centro, Paraí — RS
+            </div>
+            <div class="wpp">WhatsApp (54) 99986-5980</div>
+
+            <div class="sec" style="margin: 1mm 0 0">
+              <span class="hint">Taxas de entrega por bairro</span>
+            </div>
+            <div class="taxas">
+              <div class="taxa"><span class="b">Centro</span><span class="d"></span><span class="v">R$ 2</span></div>
+              <div class="taxa"><span class="b">São José</span><span class="d"></span><span class="v">R$ 2</span></div>
+              <div class="taxa"><span class="b">Palmeirinha</span><span class="d"></span><span class="v">R$ 3</span></div>
+              <div class="taxa"><span class="b">São Lucas S1</span><span class="d"></span><span class="v">R$ 3</span></div>
+              <div class="taxa"><span class="b">São Lucas S2</span><span class="d"></span><span class="v">R$ 4</span></div>
+              <div class="taxa"><span class="b">Goreti</span><span class="d"></span><span class="v">R$ 4</span></div>
+              <div class="taxa"><span class="b">Navegantes</span><span class="d"></span><span class="v">R$ 4</span></div>
+              <div class="taxa"><span class="b">Santa Gema</span><span class="d"></span><span class="v">R$ 10</span></div>
+              <div class="taxa"><span class="b">Nova Araçá</span><span class="d"></span><span class="v">R$ 15</span></div>
+              <div class="taxa"><span class="b">Casca</span><span class="d"></span><span class="v">R$ 30</span></div>
+            </div>
+
+            <div class="qr">
+              <img
+                src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://wa.me/5554999865980"
+                alt="QR Code WhatsApp"
+              />
+            </div>
+            <div class="qr-cap">Aponte a câmera para pedir pelo WhatsApp</div>
+          </div>
+        </div>
+        <div class="foot">© Ponto Certo · Restaurante &amp; Lancheria · Paraí — RS</div>
+      </section>
+    </div>
+  </body>
+</html>
