@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ponto Certo — Cardápio Impresso · Acessível PRETO (13×20 cm)</title>
+    <style>
+      /* ============================================================
+         CARDÁPIO FÍSICO — PONTO CERTO · VERSÃO ACESSÍVEL (PRETO)
+         Formato exato: 13 x 20 cm (RETRATO) = 130mm x 200mm
+         4 páginas:  1) CAPA (logo)   2) Entradas + Pratos
+                     3) Lanches        4) Pastéis + Bebidas
+
+         FOCO UI/UX: mesma estrutura da versão acessível, agora
+         em TEMA ESCURO mantendo as CORES TEMÁTICAS (laranja + verde).
+           • Fundo PRETO + texto quase BRANCO = contraste alto.
+           • Laranja e verde MAIS VIVOS p/ brilhar no escuro.
+           • Letras GRANDES e hierarquia óbvia.
+           • Descrições curtas (menos texto = menos esforço).
+           • Faixas de seção bem destacadas p/ localização rápida.
+           • Nome à esquerda, PREÇO à direita (padrão fácil de ler).
+         Arquivo SEPARADO — não altera as outras versões.
+         ATENÇÃO IMPRESSÃO: tema escuro usa MUITA tinta. Marque
+         "Gráficos de plano de fundo" e prefira papel/PDF.
+         ============================================================ */
+
+      :root {
+        /* Paleta ESCURA de alto contraste — cores temáticas vivas */
+        --papel: #121212;        /* preto suave (base) */
+        --papel-2: #1c1a17;      /* preto quente p/ blocos */
+        --tinta: #f5f0e6;        /* texto principal ~ branco quente */
+        --tinta-2: #c9c1b2;      /* descrições (cinza claro) */
+        --laranja: #ff7a3c;      /* títulos e preços (laranja vivo) */
+        --laranja-band: #2b1610; /* faixa escura atrás do título */
+        --verde: #58c46a;        /* acentos e rótulos (verde vivo) */
+        --linha: #3a352d;        /* bordas/molduras escuras */
+        --m: 12mm;               /* margem da página */
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        background: #000;
+        font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--tinta);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* ====== PÁGINA 130 x 200 mm ====== */
+      .page {
+        position: relative;
+        width: 130mm;
+        height: 200mm;
+        background: var(--papel);
+        overflow: hidden;
+        page-break-after: always;
+        break-after: page;
+        padding: var(--m);
+        display: flex;
+        flex-direction: column;
+      }
+      .page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      /* Moldura fina (orientação visual) */
+      .page::after {
+        content: "";
+        position: absolute;
+        inset: 6mm;
+        border: 0.5mm solid var(--linha);
+        border-radius: 3mm;
+        pointer-events: none;
+      }
+
+      .content {
+        position: relative;
+        z-index: 1;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* usa o espaço livre, centralizado */
+        gap: 7mm;
+      }
+
+      /* ====== FAIXA DE SEÇÃO (bem destacada) ====== */
+      .sec {
+        background: var(--laranja-band);
+        border-bottom: 1.4mm solid var(--verde);
+        border-radius: 2mm 2mm 0 0;
+        padding: 2.8mm 4mm;
+        margin-bottom: 4mm;
+        display: flex;
+        align-items: baseline;
+        gap: 3mm;
+      }
+      .sec h2 {
+        color: var(--laranja);
+        font-size: 19pt;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        line-height: 1;
+      }
+      .sec .hint {
+        font-size: 9pt;
+        color: var(--verde);
+        font-weight: 600;
+        font-style: italic;
+      }
+
+      /* ====== LISTA DE ITENS (2 colunas) ====== */
+      .list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 7mm;
+        row-gap: 4.4mm;
+        align-content: start;
+      }
+
+      .item {
+        break-inside: avoid;
+        min-width: 0; /* permite que o texto se ajuste à coluna */
+      }
+      /* Linha NOME .......... PREÇO */
+      .row {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 2mm;
+      }
+      .nm {
+        font-size: 13pt;
+        font-weight: 700;
+        color: var(--tinta);
+        line-height: 1.15;
+        min-width: 0;
+      }
+      .pr {
+        font-size: 14pt;
+        font-weight: 800;
+        color: var(--laranja);
+        white-space: nowrap;
+        flex: none;
+      }
+      .ds {
+        font-size: 10pt;
+        color: var(--tinta-2);
+        line-height: 1.3;
+        margin-top: 1.2mm;
+      }
+      /* preços múltiplos (P/G, sabores etc.) */
+      .multi {
+        margin-top: 1.4mm;
+        font-size: 11pt;
+        color: var(--verde);
+        font-weight: 600;
+      }
+      .multi b {
+        color: var(--laranja);
+        font-weight: 800;
+      }
+      .multi .dot {
+        color: #6a6357;
+        margin: 0 1.4mm;
+        font-weight: 400;
+      }
+      /* Etiqueta (vai no início da descrição p/ não alargar o nome) */
+      .flag {
+        display: inline-block;
+        font-size: 8pt;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+        padding: 0.4mm 1.6mm;
+        border-radius: 1.2mm;
+        margin-right: 1.4mm;
+        color: #121212;
+        vertical-align: 1px;
+      }
+      .flag.novo { background: #ff7a3c; }
+      .flag.info { background: var(--verde); }
+
+      .foot {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        font-size: 10pt;
+        color: var(--tinta-2);
+        margin-top: 5mm;
+        font-weight: 600;
+      }
+      .foot b { color: var(--laranja); }
+
+      /* ====== CAPA (logo) ====== */
+      .capa .mark {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .capa .logo {
+        width: 88mm;
+        max-width: 88mm;
+        height: auto;
+        border-radius: 4mm;
+        border: 0.5mm solid var(--laranja);
+        box-shadow: 0 3mm 9mm rgba(0, 0, 0, 0.6);
+      }
+      .capa .rule {
+        width: 62mm;
+        height: 1mm;
+        background: var(--verde);
+        border-radius: 1mm;
+        margin: 10mm auto 7mm;
+      }
+      .capa .word {
+        font-size: 32pt;
+        font-weight: 800;
+        letter-spacing: 5px;
+        color: var(--laranja);
+        text-transform: uppercase;
+      }
+      .capa .loc {
+        margin-top: 6mm;
+        font-size: 14pt;
+        letter-spacing: 5px;
+        color: var(--tinta-2);
+        font-weight: 600;
+      }
+
+      /* ====== TELA: barra + palco ====== */
+      .toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: #000;
+        color: #eee;
+        padding: 10px 16px;
+        font-size: 13px;
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        flex-wrap: wrap;
+        border-bottom: 3px solid var(--laranja);
+      }
+      .toolbar b { color: #ffb59a; }
+      .toolbar button {
+        background: #ff7a3c;
+        color: #121212;
+        border: 0;
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-weight: 700;
+        cursor: pointer;
+        font-size: 13px;
+      }
+      .stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 18px;
+        padding: 24px 0 60px;
+      }
+      .stage .page {
+        box-shadow: 0 10px 34px rgba(0, 0, 0, 0.7);
+      }
+
+      /* ====== IMPRESSÃO ====== */
+      @page {
+        size: 130mm 200mm;
+        margin: 0;
+      }
+      @media print {
+        html,
+        body { background: #000; }
+        .toolbar { display: none !important; }
+        .stage { display: block; padding: 0; gap: 0; }
+        .stage .page { box-shadow: none; margin: 0; }
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="toolbar">
+      <b>13×20 cm · Acessível PRETO (fundo escuro, cores vivas)</b>
+      <span>Papel 130×200mm · Margens: Nenhuma · Escala 100% · marque "Gráficos de plano de fundo".</span>
+      <button onclick="window.print()">Imprimir / Salvar PDF</button>
+    </div>
+
+    <div class="stage">
+      <!-- ===================== 1 — CAPA (LOGO) ===================== -->
+      <section class="page capa">
+        <div class="content">
+          <div class="mark">
+            <img class="logo" src="img/Logo.png" alt="Ponto Certo — Restaurante e Lancheria" />
+            <div class="rule"></div>
+            <div class="word">Cardápio</div>
+            <div class="loc">PARAÍ — RS</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ====== 2 — ENTRADAS · PRATOS ====== -->
+      <section class="page">
+        <div class="content">
+          <!-- ENTRADAS -->
+          <div>
+            <div class="sec"><h2>Entradas</h2></div>
+            <div class="list">
+              <div class="item">
+                <span class="nm">Batata Frita</span>
+                <div class="multi">Pequena <b>R$ 20</b><span class="dot">·</span>Grande <b>R$ 25</b></div>
+                <div class="ds">Crocante. Cheddar e bacon + R$ 10.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Queijo Frito</span><span class="pr">R$ 20</span></div>
+                <div class="ds">Porção de 300g.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Tilápia</span><span class="pr">R$ 50</span></div>
+                <div class="ds">Filé com polenta.</div>
+              </div>
+              <div class="item">
+                <span class="nm">Picadão</span>
+                <div class="multi">Médio <b>R$ 90</b><span class="dot">·</span>Grande <b>R$ 110</b></div>
+                <div class="ds"><span class="flag novo">Especial</span>Carnes, polenta, aipim e queijo.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PRATOS -->
+          <div>
+            <div class="sec"><h2>Pratos</h2><span class="hint">Servem 2 pessoas</span></div>
+            <div class="list">
+              <div class="item">
+                <div class="row"><span class="nm">Parmegiana</span><span class="pr">R$ 60</span></div>
+                <div class="ds">Bife, arroz, fritas e salada.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Filé Mignon</span><span class="pr">R$ 85</span></div>
+                <div class="ds">Parmegiana, arroz e fritas.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="foot">Ponto Certo · Paraí — RS</div>
+      </section>
+
+      <!-- ====== 3 — LANCHES ====== -->
+      <section class="page">
+        <div class="content">
+          <div>
+            <div class="sec"><h2>Lanches</h2><span class="hint">No pão da casa</span></div>
+            <div class="list">
+              <div class="item">
+                <div class="row"><span class="nm">Hambúrguer</span><span class="pr">R$ 30</span></div>
+                <div class="ds"><span class="flag novo">Novo</span>Burger 140g, cheddar e salada. Com fritas.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Entrevero</span><span class="pr">R$ 35</span></div>
+                <div class="ds"><span class="flag novo">Novo</span>Gado, frango, calabresa, ovo e salada.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Imigrante</span><span class="pr">R$ 40</span></div>
+                <div class="ds"><span class="flag novo">Novo</span>Burger à milanesa 140g e molho.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Torrada</span><span class="pr">R$ 15</span></div>
+                <div class="ds">Presunto, queijo, ovo e maionese.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">X Salada</span><span class="pr">R$ 25</span></div>
+                <div class="ds">Hambúrguer, presunto, queijo e salada.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">X Acebolado</span><span class="pr">R$ 27</span></div>
+                <div class="ds">X Salada + cebola na chapa.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Frango</span><span class="pr">R$ 25</span></div>
+                <div class="ds">Frango desfiado, queijo e salada.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Bacon</span><span class="pr">R$ 28</span></div>
+                <div class="ds">Bacon, presunto, queijo e salada.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Calabresa</span><span class="pr">R$ 28</span></div>
+                <div class="ds">Calabresa, presunto e queijo.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Xis Coração</span><span class="pr">R$ 31</span></div>
+                <div class="ds">Coração, presunto e queijo.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">X Tudo</span><span class="pr">R$ 33</span></div>
+                <div class="ds"><span class="flag info">Completo</span>Bacon, calabresa, frango e mais.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">X Turbo</span><span class="pr">R$ 35</span></div>
+                <div class="ds"><span class="flag info">Top</span>Hambúrguer, 2 presuntos e salada dobrada.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="foot">Ponto Certo · Paraí — RS</div>
+      </section>
+
+      <!-- ====== 4 — PASTÉIS · BEBIDAS ====== -->
+      <section class="page">
+        <div class="content">
+          <!-- PASTÉIS -->
+          <div>
+            <div class="sec"><h2>Pastéis</h2></div>
+            <div class="list">
+              <div class="item">
+                <div class="row"><span class="nm">Pastel Médio</span><span class="pr">R$ 15</span></div>
+                <div class="ds">Diversos sabores.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Pastel Grande</span><span class="pr">R$ 22</span></div>
+                <div class="ds">Diversos sabores.</div>
+              </div>
+              <div class="item">
+                <span class="nm">Doces</span>
+                <div class="ds">Branco, Preto, Misto, Prestígio, Sensação.</div>
+              </div>
+              <div class="item">
+                <span class="nm">Salgados</span>
+                <div class="ds">Frango, Calabresa, Bacon, Misto.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- BEBIDAS -->
+          <div>
+            <div class="sec"><h2>Bebidas</h2></div>
+            <div class="list">
+              <div class="item">
+                <span class="nm">Refrigerantes</span>
+                <div class="multi">Lata <b>R$ 6</b><span class="dot">·</span>600ml <b>R$ 8</b><span class="dot">·</span>1L <b>R$ 12</b><span class="dot">·</span>2L <b>R$ 18</b></div>
+              </div>
+              <div class="item">
+                <span class="nm">Energéticos</span>
+                <div class="multi">Latão <b>R$ 15</b><span class="dot">·</span>2L <b>R$ 20</b></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Suco Natural</span><span class="pr">R$ 10</span></div>
+                <div class="ds">Sabores frescos.</div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Água 500ml</span><span class="pr">R$ 5</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Chopp</span><span class="pr">Consultar</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Cerveja Lata</span><span class="pr">R$ 10</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Long Neck</span><span class="pr">R$ 13</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Cerveja Garrafa</span><span class="pr">R$ 15</span></div>
+              </div>
+              <div class="item">
+                <div class="row"><span class="nm">Caipirinha</span><span class="pr">R$ 18</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="foot">Pedidos pelo WhatsApp <b>(54) 99986-5980</b> · Paraí — RS</div>
+      </section>
+    </div>
+  </body>
+</html>
