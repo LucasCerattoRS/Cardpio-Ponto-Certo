@@ -14,15 +14,18 @@ Cardápio digital do **Ponto Certo — Restaurante e Lancheria** (Paraí/RS), pu
 ├── cardapio-impressao-13x20.html           Formato 13x20 cm
 ├── cardapio-impressao-13x20-acessivel.html Formato 13x20 com alto contraste
 ├── cardapio-impressao-13x20-acessivel-preto.html
+├── TECNICAS.md                              Estudo: por que cada técnica de front-end foi usada
 └── img/                                    Fotos dos pratos (jpg + webp) e logo
 ```
 
 ## 🛠️ Técnicas aplicadas
 
 - **Mobile-first**: carrossel de fotos com scroll-snap, navegação sticky por categorias, áreas de toque generosas
-- **Performance**: imagens em `webp` com fallback `jpg` via `<picture>`, `loading="lazy"`, CSS inline (zero build, 1 request)
+- **Performance**: imagens em `webp` com fallback `jpg` via `<picture>`, `loading="lazy"`, ícones como sprite SVG (zero dependência de fonte externa), CSS inline (zero build, 1 request)
 - **Acessibilidade**: `alt` descritivos, `focus-visible`, `prefers-reduced-motion`, versões impressas de alto contraste
 - **Sem dependências de build**: HTML/CSS/JS puros — basta servir os arquivos
+
+Para o porquê de cada uma dessas técnicas (material de estudo, não afeta o site), ver [`TECNICAS.md`](TECNICAS.md).
 
 ## ⚠️ Manutenção
 
