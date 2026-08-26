@@ -2,7 +2,9 @@
 
 Cardápio digital do **Ponto Certo — Restaurante e Lancheria** (Paraí/RS), publicado como site estático no GitHub Pages e acessado pelos clientes via QR code nas mesas.
 
-**🔗 Site ao vivo:** https://lucascerattors.github.io/Cardpio-Ponto-Certo/
+**🔗 Site ao vivo:** https://cardapio-ponto-certo-murex.vercel.app/ (migrado do GitHub Pages em 26/08/2026 — deploy automático via Vercel a cada push na `main`)
+
+**🔗 URL antiga (redirect temporário):** https://lucascerattors.github.io/Cardpio-Ponto-Certo/ — o QR físico das mesas ainda aponta pra ela. Ela só redireciona pra URL nova (branch `gh-pages`, não editar). Fica no ar até o QR novo ser impresso e trocado nas mesas — depois disso pode ser desligada (ver Pendências).
 
 ## 📂 Estrutura
 
@@ -29,8 +31,9 @@ Para o porquê de cada uma dessas técnicas (material de estudo, não afeta o si
 
 ## ⚠️ Manutenção
 
-O QR code impresso nas mesas aponta para a URL do GitHub Pages acima.
+O QR code impresso nas mesas aponta hoje pra URL antiga (redirect), que aponta pra URL nova no Vercel.
 **Não renomear o repositório, o `index.html` nem os arquivos de `img/`** — isso quebraria o acesso dos clientes.
+**Não editar o branch `gh-pages`** — ele só tem uma página de redirect, editado à parte do fluxo normal (que continua todo no `main`, igual antes).
 
 ## ✏️ Como editar um preço ou item (sem programar)
 
@@ -68,3 +71,7 @@ O deploy é automático via GitHub Pages a partir da branch `main` — não exis
 ## 📋 Pendências
 
 **[Issue #1](https://github.com/LucasCerattoRS/Cardpio-Ponto-Certo/issues/1)** — 2 itens em rascunho (Frango Frito, Picadão variante), com os trechos de código já prontos pra colar nos 7 arquivos assim que faltar só confirmar a informação com o cliente/cozinha. Ver a issue pro passo a passo exato.
+
+**[Issue #2](https://github.com/LucasCerattoRS/Cardpio-Ponto-Certo/issues/2)** — 3º item em rascunho (prato pra 2 pessoas: tilápia + tapioca + frango), snippet pronto, só falta o nome.
+
+**Trocar o QR físico das mesas** pela URL nova do Vercel (https://cardapio-ponto-certo-murex.vercel.app/). Depois de trocado, o redirect antigo (branch `gh-pages`) não serve mais pra nada — pode apagar o branch e voltar o Pages a apontar pro `main`, ou simplesmente deixar como está (não custa nada mantido).
