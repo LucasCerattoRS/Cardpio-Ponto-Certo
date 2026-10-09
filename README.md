@@ -1,6 +1,6 @@
 # 🍽️ Cardápio Digital — Ponto Certo
 
-Cardápio digital do **Ponto Certo — Restaurante e Lancheria** (Paraí/RS), publicado como site estático no GitHub Pages e acessado pelos clientes via QR code nas mesas.
+Cardápio digital do **Ponto Certo — Restaurante e Lancheria** (Paraí/RS), publicado como site estático no Vercel e acessado pelos clientes via QR code nas mesas.
 
 **🔗 Site ao vivo:** https://cardapio-ponto-certo-murex.vercel.app/ (migrado do GitHub Pages em 26/08/2026 — deploy automático via Vercel a cada push na `main`)
 
@@ -16,6 +16,9 @@ Cardápio digital do **Ponto Certo — Restaurante e Lancheria** (Paraí/RS), pu
 ├── cardapio-impressao-13x20.html           Formato 13x20 cm
 ├── cardapio-impressao-13x20-acessivel.html Formato 13x20 com alto contraste
 ├── cardapio-impressao-13x20-acessivel-preto.html
+├── notas.js                                Caixa de anotações do dono (só aparece com #notas na URL)
+├── test/precos.test.js                     Confere se os impressos têm os mesmos preços do digital
+├── MENSAGEM-COBRANCA-AGOSTO-2026.md        Registro da cobrança de agosto/2026
 ├── TECNICAS.md                              Estudo: por que cada técnica de front-end foi usada
 └── img/                                    Fotos dos pratos (jpg + webp) e logo
 ```
@@ -28,6 +31,13 @@ Cardápio digital do **Ponto Certo — Restaurante e Lancheria** (Paraí/RS), pu
 - **Sem dependências de build**: HTML/CSS/JS puros — basta servir os arquivos
 
 Para o porquê de cada uma dessas técnicas (material de estudo, não afeta o site), ver [`TECNICAS.md`](TECNICAS.md).
+
+## 📍 Estado real (revisão de 08/10/2026)
+
+- Verificado: site do Vercel responde 200; o branch `gh-pages` só contém o redirect; todos os caminhos locais de `src`/`href` existem em `img/`.
+- Corrigido nesta revisão: as 6 versões de impressão ainda tinham **Porção da Casa a R$ 50** e o **Pastel Médio** (a mudança de 28/08 só foi feita no `index.html`); `og:image` apontava pro GitHub Pages, onde a logo dá 404 (prévia do link no WhatsApp sem imagem).
+- Não verificado: aparência das versões de impressão depois de tirar o Pastel Médio (só sobra espaço, não deve quebrar, mas vale abrir e imprimir em PDF antes de mandar pra gráfica).
+- O QR do WhatsApp na seção de contato é gerado por um serviço externo (`api.qrserver.com`); se o serviço cair, a imagem some (o botão do WhatsApp continua funcionando).
 
 ## ⚠️ Manutenção
 
@@ -45,13 +55,13 @@ Cada prato aparece em **7 arquivos diferentes** (o digital + 6 versões de impre
 2. Use Ctrl+F do navegador pra achar o nome do prato, edite o preço/texto.
 3. Role até o fim da página, escreva uma frase curta descrevendo a mudança e clique em **"Commit changes"** (direto na `main` — não precisa criar branch/PR, o repositório é seu).
 4. Repita nos outros 6 arquivos que têm o mesmo prato (a lista completa está em "📂 Estrutura" acima).
-5. Espere ~1 minuto e confira em https://lucascerattors.github.io/Cardpio-Ponto-Certo/ (Ctrl+Shift+R se o navegador mostrar a versão antiga em cache).
+5. Espere ~1 minuto e confira em https://cardapio-ponto-certo-murex.vercel.app/ (Ctrl+Shift+R se o navegador mostrar a versão antiga em cache).
 
 ### Método B — com uma sessão do Claude Code (se tiver disponível)
 
 1. Abra o repositório numa sessão do Claude Code (ou peça pra alguém abrir).
 2. Diga o que mudar, por exemplo: *"muda o preço da Picanha de R$ 70 para R$ 75 em todos os arquivos"*.
-3. Peça pra revisar o `git diff` antes de aceitar — confirma que o valor mudou em todos os 7 arquivos e em nenhum lugar errado.
+3. Peça pra revisar o `git diff` antes de aceitar — confirma que o valor mudou em todos os 7 arquivos e em nenhum lugar errado. Rode `node --test` (ver abaixo).
 4. Peça pra commitar e dar `git push`.
 
 Se for **item novo** (como o Baurú foi adicionado): ele entra em todos os 7 arquivos com uma badge "Novo"/"Novidade". Se o preço ainda não estiver definido, use o texto `Consultar` como placeholder até confirmar o valor.
@@ -66,7 +76,15 @@ git commit -m "Descrição da mudança"
 git push
 ```
 
-O deploy é automático via GitHub Pages a partir da branch `main` — não existe passo de build.
+O deploy é automático via Vercel a partir da branch `main` — não existe passo de build.
+
+## ✅ Conferir preços (Node 18+)
+
+```bash
+node --test
+```
+
+Compara nome+preço de cada item dos 6 impressos com o `index.html`. Limite: só compara itens com o **mesmo nome** e preço único (cerca de 15 dos 26 por arquivo; nomes abreviados no impresso, como "Parm. Filé Mignon", e itens com várias faixas de preço ficam de fora).
 
 ## 📋 Pendências
 
@@ -75,3 +93,14 @@ O deploy é automático via GitHub Pages a partir da branch `main` — não exis
 **[Issue #2](https://github.com/LucasCerattoRS/Cardpio-Ponto-Certo/issues/2)** — 3º item em rascunho (prato pra 2 pessoas: tilápia + tapioca + frango), snippet pronto, só falta o nome.
 
 **Trocar o QR físico das mesas** pela URL nova do Vercel (https://cardapio-ponto-certo-murex.vercel.app/). Depois de trocado, o redirect antigo (branch `gh-pages`) não serve mais pra nada — pode apagar o branch e voltar o Pages a apontar pro `main`, ou simplesmente deixar como está (não custa nada mantido).
+
+**Decidir:** o arquivo `MENSAGEM-COBRANCA-AGOSTO-2026.md` (valores cobrados e tabela de preços dos seus serviços) está num repositório **público**. Se não quiser isso visível pro cliente/terceiros, mover pra um lugar privado.
+
+## 📚 Para estudar
+
+- **Fonte única da verdade**: o mesmo preço em 7 arquivos é a origem do bug corrigido aqui. A solução "de verdade" seria gerar os 7 a partir de um `cardapio.json`; o teste em `test/` é o meio-termo barato.
+- **Open Graph** (`og:image`, `og:url`): metadados que WhatsApp/Facebook leem pra montar a prévia do link; precisam de URL absoluta e que responda 200.
+- **Redirect por `<meta http-equiv="refresh">`** + `rel="canonical"`: como o `gh-pages` mantém o QR antigo funcionando sem servidor.
+- **`<picture>` + `srcset`** (webp com fallback jpg), `loading="lazy"`, sprite SVG com `<use href="#...">`.
+- **`localStorage` com `try/catch`** e `textContent` em vez de `innerHTML` pra texto digitado (ver `notas.js`): evita quebrar em modo privado e evita injeção de HTML.
+- **`node:test`**: executor de testes embutido no Node, sem instalar nada.
