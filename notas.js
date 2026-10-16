@@ -27,7 +27,7 @@
   if (GATE === 'hash' && location.hash.indexOf('notas') === -1) return;
 
   function ler() {
-    try { return JSON.parse(localStorage.getItem(CHAVE) || '[]'); } catch (e) { return []; }
+    try { var v = JSON.parse(localStorage.getItem(CHAVE) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; }
   }
   function gravar(lista) {
     try { localStorage.setItem(CHAVE, JSON.stringify(lista)); } catch (e) {
